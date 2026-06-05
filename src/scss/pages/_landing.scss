@@ -1,0 +1,33 @@
+@use '../abstract/functions' as fct;
+@use '../abstract/mixin' as mx;
+@use '../abstract/variables' as var;
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: black;
+    color: #333;
+}
+
+.hero {
+    margin-top: fct.px-to-rem(339);
+    position: relative;
+    
+    @include mx.flex-center(column);
+
+    &::before {
+        content: '';
+        position: fixed;
+
+        left: -2rem;
+        bottom: -2rem;
+
+        width: 12rem;
+        height: 12rem;
+
+        background-image: url('../../assets/img/stadia_controller.svg');
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        opacity: 1.0;
+    }
+}

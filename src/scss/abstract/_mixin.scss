@@ -1,0 +1,22 @@
+@mixin flex-center($direction: row){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: $direction;
+}
+
+//animation
+@mixin fade-in($time:0.3s, $ease: ease-in-out){
+    animation: fadeIn $time $ease forwards;
+}
+
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
