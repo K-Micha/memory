@@ -1,33 +1,72 @@
 @use '../abstract/functions' as fct;
 @use '../abstract/mixin' as mx;
 @use '../abstract/variables' as var;
+@use '../base/typography' as typo;
+@use 'sass:map';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: black;
+    font-family: 'Almarai', sans-serif;
+    background-color: map.get(var.$colors, dark-primary);
     color: #333;
 }
 
 .hero {
-    margin-top: fct.px-to-rem(339);
-    position: relative;
-    
-    @include mx.flex-center(column);
+    width: 100%;
+    min-height: 100vh;
 
-    &::before {
-        content: '';
-        position: fixed;
+    &__content{
+        padding-bottom: 100px;
+    }
 
-        left: -2rem;
-        bottom: -2rem;
+    &__wrapper {
+        position: relative;
 
-        width: 12rem;
-        height: 12rem;
+        width: 100%;
+        max-width: 1440px;
+        min-height: 100vh;
 
-        background-image: url('../../assets/img/stadia_controller.svg');
-        background-repeat: no-repeat;
-        background-size: contain;
+        margin-inline: auto;
 
-        opacity: 1.0;
+        @include mx.flex-center(column);
+
+        p,
+        h1 {
+            color: map.get(var.$colors, font-color-w);
+        }
+
+        p {
+            font-size: fct.px-to-rem(map.get(typo.$font-sizes, xxxl));
+            font-weight: 400;
+            letter-spacing: 0%;
+        }
+
+        h1 {
+            font-family: 'RedRose', sans-serif;
+            font-size: fct.px-to-rem(140px);
+            font-weight: 700;
+        }
+        
+        &::before {
+            content: '';
+            position: absolute;
+
+            width: 414px;
+            height: 301px;
+
+            left: 0;
+            bottom: 0;
+
+            background-image: url('/src/assets/img/stadia_controller.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+
+            z-index: 20;
+        }
     }
 }

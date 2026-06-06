@@ -1,0 +1,93 @@
+@use '../abstract/mixin' as mx;
+@use '../abstract/variables' as var;
+@use '../abstract/functions' as fct;
+@use '../base/typography' as typo;
+@use 'sass:map';
+
+.btn {
+    @include mx.flex-center();
+    border: none;
+    cursor: pointer;
+
+    font-family: inherit;
+}
+
+.yellow {
+    background-color: map.get(var.$colors, button-active);
+    padding: fct.px-to-rem(24px);
+    font-size: fct.px-to-rem(map.get(typo.$font-sizes, xxl));
+    font-weight: 700;
+    color: map.get(var.$colors, dark-primary);
+    font-family: 'RedRose', sans-serif;
+
+    &--start {}
+
+    &--play {
+        width: fct.px-to-rem(250px);
+        height: fct.px-to-rem(98px);
+        gap: fct.px-to-rem(16px);
+        font-size: fct.px-to-rem(map.get(typo.$font-sizes, btn-lg));
+
+        &__icon {
+            height: fct.px-to-rem(36px);
+            width: fct.px-to-rem(49.5px);
+        }
+
+        &__arrow {
+            position: relative;
+            display: inline-block;
+            width: 33px;
+            height: 2px;
+            background: map.get(var.$colors, dark-primary);
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                right: -1px;
+                width: 15px;
+                height: 2px;
+                background: map.get(var.$colors, dark-primary);
+            }
+
+            &::before {
+                transform: rotate(40deg);
+                transform-origin: right center;
+            }
+
+            &::after {
+                transform: rotate(-40deg);
+                transform-origin: right center;
+            }
+        }
+
+        &:hover {
+            width: 260px;
+
+            .yellow--play__icon {
+                transform: rotate(-27deg);
+            }
+
+            .yellow--play__arrow {
+                width: 36px;
+                height: 4px;
+
+                &::before,
+                &::after {
+                    width: 12px;
+                    height: 4px;
+                }
+
+                &::before {
+                    top: 1px;
+                    width: 20px;
+                }
+
+                &::after {
+                    bottom: 1px;
+                    width: 20px;
+                }
+            }
+        }
+    }
+}

@@ -33,9 +33,26 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Almarai';
+    src: url('../../assets/fonts/almarai/Almarai-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Almarai';
+    src: url('/src/assets/fonts/almarai/Almarai-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
 $font-sizes: (
-    sm: 14px,
-    md: 16px,
+    base: 16px,
+    md: 20px,
     lg: 24px,
     xl: 32px,
+    xxl: 40px,
+    xxxl: 48px,
+    btn-lg: 44px,
 );
