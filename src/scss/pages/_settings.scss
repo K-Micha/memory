@@ -2,20 +2,31 @@
 @use '../abstract/mixin' as mx;
 @use '../abstract/variables' as var;
 @use '../base/typography' as typo;
+@use '../components/separator.scss';
 @use 'sass:map';
 
 
-body{
+body {
     background-color: white;
 }
 
-*{
+* {
     margin: 0 auto;
 }
 
+.settings__header {
+    .indicator {
+        opacity: 1;
+    }
+
+    .indicator--head {
+        opacity: 1;
+    }
+}
+
 .settings {
-    width: 100%;
     min-height: 100vh;
+    margin: 129px 0 0 0;
 
     &__wrapper {
         width: 100%;
@@ -23,6 +34,14 @@ body{
         min-height: 100vh;
 
         margin-inline: auto;
+    }
+
+    &__content {
+        max-width: 1103px;
+    }
+
+    &__header {
+        max-width: 1103px;
     }
 
 

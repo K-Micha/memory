@@ -9,143 +9,121 @@
 
 <body>
     <main class="settings">
-
         <div class="settings__wrapper">
 
             <section class="settings__header">
-
                 <h1>Settings</h1>
-
-                <span class="settings__header-indicator"></span>
-
+                <span class="indicator indicator--head"></span>
             </section>
 
             <section class="settings__content">
 
-                <section class="settings__options">
+                <section class="settings__options settings--column">
 
-                    <div class="option-group">
-
+                    <div class="settings__group settings--column">
                         <h2>Game themes</h2>
 
-                        <label>
-                            <input type="radio" name="theme" checked>
-                            <span>Code vibes theme</span>
-                            <span class="indicator"></span>
-                        </label>
+                        <div class="settings__list settings--column">
+                            <div class="settings__option">
+                                <input id="theme-code" type="radio" name="theme" value="code" checked>
+                                <label for="theme-code">Code vibes theme</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
 
-                        <label>
-                            <input type="radio" name="theme">
-                            <span>Gaming theme</span>
-                            <span class="indicator"></span>
-                        </label>
+                            <div class="settings__option">
+                                <input id="theme-gaming" type="radio" name="theme" value="gaming">
+                                <label for="theme-gaming">Gaming theme</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
 
-                        <label>
-                            <input type="radio" name="theme">
-                            <span>DA Projects theme</span>
-                            <span class="indicator"></span>
-                        </label>
+                            <div class="settings__option">
+                                <input id="theme-da" type="radio" name="theme" value="da-projects">
+                                <label for="theme-da">DA Projects theme</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
 
-                        <label>
-                            <input type="radio" name="theme">
-                            <span>Foods theme</span>
-                            <span class="indicator"></span>
-                        </label>
-
+                            <div class="settings__option">
+                                <input id="theme-foods" type="radio" name="theme" value="foods">
+                                <label for="theme-foods">Foods theme</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="option-group">
-
+                    <div class="settings__group settings--column">
                         <h2>Choose player</h2>
 
-                        <label>
-                            <input type="radio" name="player" checked>
-                            <span>Blue</span>
-                            <span class="indicator"></span>
-                        </label>
+                        <div class="settings__list settings--column">
+                            <div class="settings__option">
+                                <input id="player-blue" type="radio" name="player" value="blue" checked>
+                                <label for="player-blue">Blue</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
 
-                        <label>
-                            <input type="radio" name="player">
-                            <span>Orange</span>
-                            <span class="indicator"></span>
-                        </label>
-
+                            <div class="settings__option">
+                                <input id="player-orange" type="radio" name="player" value="orange">
+                                <label for="player-orange">Orange</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="option-group">
-
+                    <div class="settings__group settings--column">
                         <h2>Board size</h2>
 
-                        <label>
-                            <input type="radio" name="board" checked>
-                            <span>16 Cards</span>
-                            <span class="indicator"></span>
-                        </label>
+                        <div class="settings__list settings--column">
+                            <div class="settings__option">
+                                <input id="board-16" type="radio" name="board" value="16" checked>
+                                <label for="board-16">16 Cards</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
 
-                        <label>
-                            <input type="radio" name="board">
-                            <span>24 Cards</span>
-                            <span class="indicator"></span>
-                        </label>
+                            <div class="settings__option">
+                                <input id="board-24" type="radio" name="board" value="24">
+                                <label for="board-24">24 Cards</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
 
-                        <label>
-                            <input type="radio" name="board">
-                            <span>36 Cards</span>
-                            <span class="indicator"></span>
-                        </label>
-
+                            <div class="settings__option">
+                                <input id="board-36" type="radio" name="board" value="36">
+                                <label for="board-36">36 Cards</label>
+                                <span class="indicator indicator--head"></span>
+                            </div>
+                        </div>
                     </div>
 
                 </section>
 
-                <section class="theme-preview">
-
-                    <img src="./src/assets/img/theme-preview-it.webp" alt="Code vibes theme preview">
+                <section class="theme-preview settings--column">
+                    <img class="theme-preview__image" src="./src/assets/img/theme-preview-it.webp"
+                        alt="Code vibes theme preview">
 
                     <section class="settings-summary">
+                        <div class="settings-summary__item">
+                            <span>Game theme</span>
+                        </div>
 
-                        <article class="summary-item">
+                        <span class="indicator indicator--head"></span>
 
-                            <h3>Game Theme</h3>
+                        <div class="settings-summary__item">
+                            <span>Player</span>
+                        </div>
 
-                            <p>Code vibes</p>
+                        <span class="indicator indicator--head"></span>
 
-                        </article>
-
-                        <span class="separator"></span>
-
-                        <article class="summary-item">
-
-                            <h3>Player</h3>
-
-                            <p>Blue</p>
-
-                        </article>
-
-                        <span class="separator"></span>
-
-                        <article class="summary-item">
-
-                            <h3>Board Size</h3>
-
-                            <p>16 Cards</p>
-
-                        </article>
+                        <div class="settings-summary__item">
+                            <span>Board size</span>
+                        </div>
 
                         <button class="btn yellow" type="button" onclick="startGame()">
-
                             Start
-
                         </button>
-
                     </section>
-
                 </section>
 
             </section>
 
         </div>
-
     </main>
 
     <script type="module" src="/src/main.ts"></script>

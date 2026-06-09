@@ -1,0 +1,60 @@
+@use '../abstract/variables' as var;
+@use 'sass:map';
+
+.indicator {
+    position: relative;
+
+    display: inline-block;
+
+    width: 41px;
+    height: 12px;
+
+    opacity: 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+
+        top: 50%;
+        left: 0;
+
+        width: 41px;
+
+        border-top: 3px solid map.get(var.$colors, button-active);
+
+        transform: translateY(-50%);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+
+        top: 50%;
+        left: 0;
+
+        width: 10px;
+        height: 10px;
+
+        background-color: map.get(var.$colors, secondary-yellow);
+
+        transform: translateY(-50%) rotate(45deg);
+    }
+}
+
+.indicator--head {
+
+    &::after {
+        content: '';
+        position: absolute;
+
+        left: 0;
+        top: 50%;
+
+        width: 12px;
+        height: 12px;
+
+        background-color: map.get(var.$colors, button-active);
+
+        transform: translateY(-50%) rotate(45deg);
+    }
+}
