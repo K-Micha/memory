@@ -1,0 +1,58 @@
+@use '../abstract/functions' as fct;
+@use '../abstract/mixin' as mx;
+@use '../abstract/variables' as var;
+@use '../base/typography' as typo;
+@use 'sass:map';
+
+
+body{
+    background-color: white;
+}
+
+*{
+    margin: 0 auto;
+}
+
+.settings {
+    width: 100%;
+    min-height: 100vh;
+
+    &__wrapper {
+        width: 100%;
+        max-width: 1440px;
+        min-height: 100vh;
+
+        margin-inline: auto;
+    }
+
+
+    &__content {
+        @include mx.flex-center(space-between, flex-start);
+    }
+
+    &__options {
+        width: 40%;
+
+        border: 1px solid red;
+    }
+}
+
+.theme-preview {
+    width: 50%;
+
+    @include mx.flex-center(column);
+
+    border: 1px solid blue;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+.settings-summary {
+    width: 100%;
+
+    @include mx.flex-center();
+}
