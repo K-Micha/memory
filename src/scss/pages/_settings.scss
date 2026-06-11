@@ -5,73 +5,203 @@
 @use '../components/separator.scss';
 @use 'sass:map';
 
-
-body {
-    background-color: white;
-}
-
 * {
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.settings__header {
-    .indicator {
-        opacity: 1;
-    }
-
-    .indicator--head {
-        opacity: 1;
-    }
-}
 
 .settings {
-    min-height: 100vh;
-    margin: 129px 0 0 0;
+    min-height: calc(100vh - fct.px-to-rem(129px));
+    margin-top: fct.px-to-rem(129px);
+
+    &--body {
+        background-color: white;
+    }
 
     &__wrapper {
+        padding-inline: 60px;
         width: 100%;
         max-width: 1440px;
-        min-height: 100vh;
-
         margin-inline: auto;
     }
 
     &__content {
         max-width: 1103px;
+        margin-inline: auto;
+
+        @include mx.flex-center(row, space-between, flex-start);
+    }
+}
+
+.headline {
+    max-width: 1103px;
+    margin-inline: auto;
+    margin-bottom: fct.px-to-rem(60px);
+
+    h1 {
+        margin: 0;
+
+        font-family: 'RedRose', sans-serif;
+        font-size: fct.px-to-rem(54px);
+        font-weight: 700;
+        color: map.get(var.$colors, dark-primary);
+    }
+
+    .indicator {
+        opacity: 1;
+        margin-left: fct.px-to-rem(-20px);
+
+        &::before {
+            width: fct.px-to-rem(251px);
+        }
+    }
+}
+
+.options {
+    width: fct.px-to-rem(260px);
+
+    @include mx.flex-center(column, flex-start, flex-start);
+
+    &__group {
+        height: 150px;
+        width: 100%;
+        margin-bottom: fct.px-to-rem(36px);
+        display: flex;
+        flex-direction: column;
+        gap: fct.px-to-rem(16px);
+        font-family: 'Almarai', sans-serif;
     }
 
     &__header {
-        max-width: 1103px;
+        width: 100%;
+
+        @include mx.flex-center(row, flex-start, center);
+        gap: fct.px-to-rem(8px);
+
+        h2 {
+            font-size: fct.px-to-rem(24px);
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+        }
+
+        label {
+            font-size: fct.px-to-rem(20px);
+        }
+
+        input {
+            width: fct.px-to-rem(20px);
+            height: fct.px-to-rem(20px);
+        }
     }
 
+    &__list {
+        width: 100%;
 
-    &__content {
-        @include mx.flex-center(space-between, flex-start);
+        @include mx.flex-center(column, flex-start, flex-start);
+        gap: fct.px-to-rem(10px);
     }
 
-    &__options {
-        width: 40%;
+    label,
+    input {
+        cursor: pointer;
+        font-size: fct.px-to-rem(20px);
 
-        border: 1px solid red;
+        &:hover {
+            font-weight: 700;
+        }
+    }
+
+    &__item {
+        margin-left: fct.px-to-rem(44px);
+        width: 100%;
+
+        @include mx.flex-center(row, flex-start, center);
+        gap: fct.px-to-rem(16px);
+        &:hover {
+            .indicator {
+                opacity: 1;
+                height: 0;
+                margin-top: fct.px-to-rem(10px);
+            }
+        }
     }
 }
 
 .theme-preview {
-    width: 50%;
+    width: fct.px-to-rem(460px);
+    gap: fct.px-to-rem(42px);
 
-    @include mx.flex-center(column);
+    @include mx.flex-center(column, flex-start, center);
 
-    border: 1px solid blue;
-
-    img {
-        width: 100%;
-        height: auto;
+    &__image {
+        width: fct.px-to-rem(460px);
+        height: fct.px-to-rem(412px);
         display: block;
     }
 }
 
-.settings-summary {
-    width: 100%;
+.summary {
+    background: rgba(246, 246, 246, 1);
+    margin-right: fct.px-to-rem(90px);
+    height: fct.px-to-rem(81px);
+    width: fct.px-to-rem(546px);
 
-    @include mx.flex-center();
+    @include mx.flex-center(row, space-around, center);
+
+    &__item {
+        font-weight: 500;
+        color: map.get(var.$colors, dark-primary);
+    }
+
+    &__item--hight {
+        gap: 8px;
+        font-size: fct.px-to-rem(20px);
+        height: fct.px-to-rem(53px);
+        width: fct.px-to-rem(126px);
+    }
+
+    .indicator {
+        position: relative;
+        width: 20px;
+        opacity: 1 !important;
+
+        &::before {
+            content: '';
+
+            position: absolute;
+
+            width: 4px;
+            height: 56px;
+
+            background-color: map.get(var.$colors, button-active);
+
+            transform: translateY(-20px) rotate(20deg);
+        }
+    }
+
+    .indicator--head::after {
+        content: "";
+        opacity: 0;
+        position: absolute;
+        left: -15px;
+        top: 0px;
+        width: 12px;
+        height: 12px;
+        background-color: rgb(240, 234, 110);
+        transform: translateY(30px) rotate(68deg);
+    }
+
+    &--head::before {
+        content: '';
+
+        position: absolute;
+
+        width: 4px;
+        height: 34px;
+
+        background-color: map.get(var.$colors, button-active);
+    }
 }

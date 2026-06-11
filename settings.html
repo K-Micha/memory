@@ -7,42 +7,33 @@
     <title>Document</title>
 </head>
 
-<body>
+<body class="settings--body">
     <main class="settings">
         <div class="settings__wrapper">
 
-            <section class="settings__header">
+            <section class="headline">
                 <h1>Settings</h1>
                 <span class="indicator indicator--head"></span>
             </section>
 
             <section class="settings__content">
 
-                <section class="settings__options settings--column">
+                <section class="options">
 
-                    <div class="settings__group settings--column">
-                        <h2>Game themes</h2>
+                    <div class="options__group">
+                        <div class="options__header">
+                            <img class="options__icon" src="./src/assets/img/palette.svg" alt="">
+                            <h2>Game themes</h2>
+                        </div>
 
-                        <div class="settings__list settings--column">
-                            <div class="settings__option">
+                        <div class="options__list">
+                            <div class="options__item">
                                 <input id="theme-code" type="radio" name="theme" value="code" checked>
                                 <label for="theme-code">Code vibes theme</label>
                                 <span class="indicator indicator--head"></span>
                             </div>
 
-                            <div class="settings__option">
-                                <input id="theme-gaming" type="radio" name="theme" value="gaming">
-                                <label for="theme-gaming">Gaming theme</label>
-                                <span class="indicator indicator--head"></span>
-                            </div>
-
-                            <div class="settings__option">
-                                <input id="theme-da" type="radio" name="theme" value="da-projects">
-                                <label for="theme-da">DA Projects theme</label>
-                                <span class="indicator indicator--head"></span>
-                            </div>
-
-                            <div class="settings__option">
+                            <div class="options__item">
                                 <input id="theme-foods" type="radio" name="theme" value="foods">
                                 <label for="theme-foods">Foods theme</label>
                                 <span class="indicator indicator--head"></span>
@@ -50,17 +41,20 @@
                         </div>
                     </div>
 
-                    <div class="settings__group settings--column">
-                        <h2>Choose player</h2>
+                    <div class="options__group">
+                        <div class="options__header">
+                            <img class="options__icon" src="./src/assets/img/chess_pawn.svg" alt="">
+                            <h2>Choose player</h2>
+                        </div>
 
-                        <div class="settings__list settings--column">
-                            <div class="settings__option">
+                        <div class="options__list">
+                            <div class="options__item">
                                 <input id="player-blue" type="radio" name="player" value="blue" checked>
                                 <label for="player-blue">Blue</label>
                                 <span class="indicator indicator--head"></span>
                             </div>
 
-                            <div class="settings__option">
+                            <div class="options__item">
                                 <input id="player-orange" type="radio" name="player" value="orange">
                                 <label for="player-orange">Orange</label>
                                 <span class="indicator indicator--head"></span>
@@ -68,25 +62,28 @@
                         </div>
                     </div>
 
-                    <div class="settings__group settings--column">
-                        <h2>Board size</h2>
+                    <div class="options__group">
+                        <div class="options__header">
+                            <img class="options__icon" src="./src/assets/img/style.svg" alt="">
+                            <h2>Board size</h2>
+                        </div>
 
-                        <div class="settings__list settings--column">
-                            <div class="settings__option">
+                        <div class="options__list">
+                            <div class="options__item">
                                 <input id="board-16" type="radio" name="board" value="16" checked>
-                                <label for="board-16">16 Cards</label>
+                                <label for="board-16">16 cards</label>
                                 <span class="indicator indicator--head"></span>
                             </div>
 
-                            <div class="settings__option">
+                            <div class="options__item">
                                 <input id="board-24" type="radio" name="board" value="24">
-                                <label for="board-24">24 Cards</label>
+                                <label for="board-24">24 cards</label>
                                 <span class="indicator indicator--head"></span>
                             </div>
 
-                            <div class="settings__option">
+                            <div class="options__item">
                                 <input id="board-36" type="radio" name="board" value="36">
-                                <label for="board-36">36 Cards</label>
+                                <label for="board-36">36 cards</label>
                                 <span class="indicator indicator--head"></span>
                             </div>
                         </div>
@@ -94,29 +91,22 @@
 
                 </section>
 
-                <section class="theme-preview settings--column">
-                    <img class="theme-preview__image" src="./src/assets/img/theme-preview-it.webp"
+                <section class="theme-preview">
+                    <img class="theme-preview__image" src="./src/assets/img/dev-theme.svg"
                         alt="Code vibes theme preview">
 
-                    <section class="settings-summary">
-                        <div class="settings-summary__item">
-                            <span>Game theme</span>
-                        </div>
+                    <section class="summary">
+                        <div class="summary__item">Game theme</div>
+                        <span class="indicator  indicator--head"></span>
 
+                        <div class="summary__item">Player</div>
                         <span class="indicator indicator--head"></span>
 
-                        <div class="settings-summary__item">
-                            <span>Player</span>
-                        </div>
+                        <div class="summary__item">Board size</div>
 
-                        <span class="indicator indicator--head"></span>
-
-                        <div class="settings-summary__item">
-                            <span>Board size</span>
-                        </div>
-
-                        <button class="btn yellow" type="button" onclick="startGame()">
-                            Start
+                        <button class="btn yellow summary__item--hight" type="button" onclick="startGame()">
+                            <img src="./src/assets/img/start.svg" alt="">
+                            <span>Start</span>
                         </button>
                     </section>
                 </section>
