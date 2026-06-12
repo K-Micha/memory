@@ -108,9 +108,42 @@
     input {
         cursor: pointer;
         font-size: fct.px-to-rem(20px);
+        accent-color: #000;
 
         &:hover {
             font-weight: 700;
+        }
+    }
+
+    input {
+        width: fct.px-to-rem(18px);
+        height: fct.px-to-rem(18px);
+    }
+
+    input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        position: relative;
+
+        &::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: 0.15s ease;
+        }
+
+        &:checked::after {
+            transform: translate(-50%, -50%) scale(1);
         }
     }
 
@@ -121,9 +154,15 @@
         @include mx.flex-center(row, flex-start, center);
         gap: fct.px-to-rem(16px);
 
-        .indicator--head::after{
+        .indicator--head::after {
             left: 35px;
 
+        }
+
+        input:checked~.indicator {
+            opacity: 1;
+            height: 0;
+            margin-top: fct.px-to-rem(10px);
         }
 
         &:hover {
@@ -132,6 +171,7 @@
                 height: 0;
                 margin-top: fct.px-to-rem(10px);
             }
+
         }
     }
 }
