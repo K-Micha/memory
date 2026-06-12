@@ -120,6 +120,12 @@
 
         @include mx.flex-center(row, flex-start, center);
         gap: fct.px-to-rem(16px);
+
+        .indicator--head::after{
+            left: 35px;
+
+        }
+
         &:hover {
             .indicator {
                 opacity: 1;
