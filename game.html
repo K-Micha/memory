@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+</head>
+
+<body class="game-body">
+
+    <section class="modal modal--hidden" id="exit-modal">
+        <div class="modal__box">
+            <h2 class="modal__title">Are you sure you want to quit the game?</h2>
+
+            <div class="modal__actions">
+                <button class="btn modal__button" type="button">Back to game</button>
+                <button class="btn modal__button" type="button">Exit game</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="game">
+        <header class="game__header">
+
+            <div class="score-panel">
+                <div class="score-panel__item score-panel__item--blue">
+                    <img class="score-panel__icon" src="./src/assets/img/player-blue.svg" alt="">
+                    <span class="score-panel__label">Blue</span>
+                    <span class="score-panel__value" id="score-blue">0</span>
+                </div>
+
+                <div class="score-panel__item score-panel__item--orange">
+                    <img class="score-panel__icon" src="./src/assets/img/player-orange.svg" alt="">
+                    <span class="score-panel__label">Orange</span>
+                    <span class="score-panel__value" id="score-orange">0</span>
+                </div>
+            </div>
+
+            <div class="current-player">
+                <span class="current-player__text">Current player:</span>
+                <img class="current-player__icon" id="current-player-icon" src="./src/assets/img/player-blue.svg"
+                    alt="">
+            </div>
+
+            <button class="btn game__exit" type="button">
+                <img class="game__exit-icon" src="./src/assets/img/exit.svg" alt="">
+                <span>Exit game</span>
+            </button>
+
+        </header>
+
+        <section class="game__board" id="field"></section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
