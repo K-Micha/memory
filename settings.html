@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Memory Game</title>
 </head>
 
 <body class="settings--body">
@@ -34,8 +34,8 @@
                             </div>
 
                             <div class="options__item">
-                                <input id="theme-foods" type="radio" name="theme" value="foods">
-                                <label for="theme-foods">Foods theme</label>
+                                <input id="theme-food" type="radio" name="theme" value="food">
+                                <label for="theme-food">Foods theme</label>
                                 <span class="indicator indicator--head"></span>
                             </div>
                         </div>
@@ -92,8 +92,8 @@
                 </section>
 
                 <section class="theme-preview">
-                    <img class="theme-preview__image" src="./src/assets/img/dev-theme.svg"
-                        alt="Code vibes theme preview">
+                    <img id="theme-preview" class="theme-preview__image" src="./src/assets/img/dev-theme.svg"
+                        alt="Theme preview">
 
                     <section class="summary">
                         <div class="summary__item">Game theme</div>

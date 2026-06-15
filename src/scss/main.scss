@@ -4,3 +4,6 @@
 @use 'components/main';
 @use 'pages/landing';
 @use 'pages/settings';
+@use 'pages/game';
+@use 'layout/main' as layout;
+@use 'themes/themes' as color;

@@ -260,3 +260,43 @@
         background-color: map.get(var.$colors, button-active);
     }
 }
+
+
+@keyframes summary-wiggle {
+    0% {
+        margin-left: 0;
+    }
+
+    25% {
+        margin-left: -2px;
+    }
+
+    50% {
+        margin-left: 2px;
+    }
+
+    75% {
+        margin-left: -2px;
+    }
+
+    100% {
+        margin-left: 0;
+    }
+}
+
+.summary--error {
+    .indicator {
+
+        &--head::after {
+            opacity: 1;
+            left: -16px;
+            animation: summary-wiggle 0.15s linear 3;
+            animation: 0.35s ease;
+        }
+    }
+
+    .indicator,
+    .indicator--head {
+        animation: summary-wiggle 0.15s linear 3;
+    }
+}

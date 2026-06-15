@@ -1,0 +1,15 @@
+@use '../abstract/mixin' as mx;
+@use '../abstract/variables' as var;
+@use '../abstract/functions' as fct;
+@use '../base/typography' as typo;
+@use 'sass:map';
+
+.game{
+    &__header{
+         @include mx.flex-center(row, space-between, center);
+    }
+}
+
+.score-panel {
+    @include mx.flex-center(row, center, center);
+}

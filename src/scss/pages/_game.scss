@@ -1,0 +1,19 @@
+@use '../abstract/functions' as fct;
+@use '../abstract/mixin' as mx;
+@use '../abstract/variables' as var;
+@use '../base/typography' as typo;
+@use 'sass:map';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.game-body{
+    background-color: aliceblue;
+}
+
+.modal{
+    opacity: 0;
+}
