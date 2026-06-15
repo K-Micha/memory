@@ -123,7 +123,8 @@
         height: fct.px-to-rem(18px);
     }
 
-    input[type="radio"] {
+    input[type="radio"],
+    input[type="checkbox"] {
         appearance: none;
         -webkit-appearance: none;
         width: 20px;
