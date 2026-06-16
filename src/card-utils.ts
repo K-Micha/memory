@@ -45,12 +45,14 @@ export const themes = {
         cards: techCards,
         preview: 'dev-theme.svg',
         className: 'game--code',
+        cardPath: './src/assets/game-1/',
     },
 
     food: {
         cards: foodCards,
         preview: 'food-theme.svg',
         className: 'game--food',
+        cardPath: './src/assets/game-2/',
     },
 } as const;
 

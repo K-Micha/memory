@@ -101,8 +101,20 @@ function isSettingsValid(): boolean {
 
 function markMissingSettings(): void {
     const summary = document.querySelector('.summary');
-
     summary?.classList.add('summary--error');
+}
+
+function getSettings(): GameSettings {
+    const theme = UI.theme.find(t => t.checked)?.value as Theme ?? 'code';
+
+    const players = UI.player
+        .filter(p => p.checked)
+        .map(p => p.value as Player);
+
+    const boardValue = UI.board.find(b => b.checked)?.value;
+    const boardSize = boardValue ? Number(boardValue) as BoardSize : null;
+
+    return { theme, players, boardSize };
 }
 
 function startGame(): void {
@@ -110,6 +122,9 @@ function startGame(): void {
         markMissingSettings();
         return;
     }
+
+    const settings = getSettings();
+    localStorage.setItem('gameSettings', JSON.stringify(settings));
 
     window.location.href = './game.html';
 }
