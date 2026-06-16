@@ -2,14 +2,74 @@
 @use '../abstract/variables' as var;
 @use '../abstract/functions' as fct;
 @use '../base/typography' as typo;
+@use '../themes/themes';
 @use 'sass:map';
 
-.game{
-    &__header{
-         @include mx.flex-center(row, space-between, center);
-    }
-}
 
-.score-panel {
-    @include mx.flex-center(row, center, center);
+.header {
+    width: 100%;
+    font-family: 'RedRose', sans-serif;
+
+    @include mx.flex-center(row, space-between, center);
+
+    &__score-panel,
+    &__current-player,
+    &__right {
+        flex: 1;
+    }
+
+    &__score-panel {
+        @include mx.flex-center(row, flex-start, center);
+        gap: fct.px-to-rem(20px);
+    }
+
+    &__bg {
+        display: flex;
+        justify-content: center;
+        gap: fct.px-to-rem(8px);
+        width: 292px;
+        height: 60px;
+        align-items: center;
+    }
+
+    &__current-player {
+        display: flex;
+        align-items: center;
+        gap: fct.px-to-rem(8px);
+        margin-top: fct.px-to-rem(10px);
+    }
+
+    &__right {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    &__exit {
+        flex: none;
+        gap: fct.px-to-rem(10px);
+    }
+
+    &__exit-text {
+        font-size: fct.px-to-rem(map.get(typo.$font-sizes, lg));
+    }
+
+    &__exit-icon {
+        height: fct.px-to-rem(25px);
+    }
+
+    &__label {
+        font-size: fct.px-to-rem(map.get(typo.$font-sizes, lg));
+        font-weight: 700;
+    }
+
+    &__value {
+        font-size: fct.px-to-rem(map.get(typo.$font-sizes, lg));
+        font-weight: 700;
+    }
+
+    &__text {
+        color: var(--font-light);
+        font-size: fct.px-to-rem(26px);
+    }
 }

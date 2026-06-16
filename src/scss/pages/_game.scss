@@ -2,6 +2,7 @@
 @use '../abstract/mixin' as mx;
 @use '../abstract/variables' as var;
 @use '../base/typography' as typo;
+@use '../themes/themes';
 @use 'sass:map';
 
 * {
@@ -10,8 +11,22 @@
     box-sizing: border-box;
 }
 
+img {
+    display: block;
+    max-width: 100%;
+    user-select: none;
+    pointer-events: none;
+    -webkit-user-drag: none;
+}
+
+.game {
+    width: 100%;
+    max-width: 1217px;
+    margin-inline: auto;
+}
+
 .game-body{
-    background-color: aliceblue;
+    background-color: --page-background;
 }
 
 .modal{
