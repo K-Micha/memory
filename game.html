@@ -21,39 +21,62 @@
     </section>
 
     <main class="game">
-        <header class="game__header">
+        <header class="header">
 
-            <div class="score-panel">
-                <div class="score-panel__item score-panel__item--blue">
-                    <img class="score-panel__icon" src="./src/assets/img/player-blue.svg" alt="">
-                    <span class="score-panel__label">Blue</span>
-                    <span class="score-panel__value" id="score-blue">0</span>
-                </div>
+            <div class="header__score-panel">
+                <div class="header__bg">
 
-                <div class="score-panel__item score-panel__item--orange">
-                    <img class="score-panel__icon" src="./src/assets/img/player-orange.svg" alt="">
-                    <span class="score-panel__label">Orange</span>
-                    <span class="score-panel__value" id="score-orange">0</span>
+                    <div class="header__item header__item--blue">
+                        <img class="header__icon" src="./src/assets/img/blue.svg" alt="">
+                        <span class="header__label">Blue</span>
+                        <span class="header__value" id="score-blue">0</span>
+                    </div>
+
+                    <div class="header__item header__item--orange">
+                        <img class="header__icon" src="./src/assets/img/orange.svg" alt="">
+                        <span class="header__label">Orange</span>
+                        <span class="header__value" id="score-orange">0</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="current-player">
-                <span class="current-player__text">Current player:</span>
-                <img class="current-player__icon" id="current-player-icon" src="./src/assets/img/player-blue.svg"
-                    alt="">
+            <div class="header__current-player">
+                <span class="header__text">Current player:</span>
+
+                <img class="header__current-icon" id="current-player-icon" src="./src/assets/img/blue.svg" alt="">
             </div>
 
-            <button class="btn game__exit" type="button">
-                <img class="game__exit-icon" src="./src/assets/img/exit.svg" alt="">
-                <span>Exit game</span>
+            <button class="btn header__exit" type="button">
+                <img class="header__exit-icon" src="./src/assets/img/exit.svg" alt="">
+
+                <span class="header__exit-text">
+                    Exit game
+                </span>
             </button>
 
         </header>
 
-        <section class="game__board" id="field"></section>
+        <section class="game__board" id="field">
+
+            <button class="card">
+                <div class="card__inner">
+                    <div class="card__face card__face--front">
+                        <div class="card__front-image">
+                            <img src="./src/assets/game-1/front.svg" alt="logo">
+                        </div>
+                    </div>
+
+                    <div class="card__face card__face--back">
+                        <img class="card__image" src="" alt="">
+                    </div>
+                </div>
+            </button>
+
+        </section>
     </main>
 
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="./src/game.ts"></script>
 </body>
 
 </html>
