@@ -4,15 +4,6 @@
 @use '../base/typography' as typo;
 @use 'sass:map';
 
-.game {
-    &__board {
-        width: 100%;
-        flex-wrap: wrap;
-        gap: fct.px-to-rem(24px);
-
-        @include mx.flex-center(row, center, center);
-    }
-}
 
 .card {
     height: fct.px-to-rem(120px);
@@ -48,6 +39,10 @@
             background-repeat: no-repeat;
             background-size: 60px 48px;
         }
+    }
+
+    .wrapper {
+        width: 500px;
     }
 
     &.is-flipped &__inner {

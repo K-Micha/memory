@@ -23,12 +23,36 @@ img {
     width: 100%;
     max-width: 1217px;
     margin-inline: auto;
+
+    &__board {
+        margin-top: fct.px-to-rem(41px);
+        max-width: fct.px-to-rem(750px);
+        justify-self: center;
+
+    }
+
+    &__board-wrapper {
+        flex-wrap: wrap;
+
+        @include mx.flex-center(row, center, center);
+    }
+        &__board-wrapper--16 {
+        gap: fct.px-to-rem(52px);
+    }
+
+    &__board-wrapper--24 {
+        gap: fct.px-to-rem(6px);
+    }
+
+    &__board-wrapper--36 {
+        gap: fct.px-to-rem(6px);
+    }
 }
 
-.game-body{
+.game-body {
     background-color: --page-background;
 }
 
-.modal{
+.modal {
     opacity: 0;
 }

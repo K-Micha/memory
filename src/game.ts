@@ -36,6 +36,10 @@ const gameEl = document.querySelector<HTMLElement>('.game');
 const field = document.getElementById('field') as HTMLElement;
 const template = document.querySelector('.card') as HTMLButtonElement;
 
+field.classList.add(
+    `game__board-wrapper--${settings.boardSize}`
+);
+
 const imageCache = new Map<string, HTMLImageElement>();
 
 function preloadImages(imageNames: string[]): void {

@@ -6,19 +6,21 @@
         background-color: map.get(var.$code, header-background);
     }
 
+    .header__text{
+        color: map.get(var.$colors, font-color-w);
+    }
+
     .card__front {
         background-color: map.get(var.$code, card-front);
     }
-}
 
-.game--code {
     .card__face--front {
         background: linear-gradient(180deg,
                 map.get(var.$code, card-front) 0%,
                 map.get(var.$code, card-back) 100%);
-    }
-}
 
-.card__face--front::after {
-    background-color: map.get(var.$code, font-light);
+        &::after {
+            background-color: map.get(var.$code, font-light);
+        }
+    }
 }
