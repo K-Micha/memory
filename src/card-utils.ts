@@ -46,6 +46,10 @@ export const themes = {
         preview: 'dev-theme.svg',
         className: 'game--code',
         cardPath: './src/assets/game-1/',
+        playerIcons: {
+            blue: './src/assets/img/blue.svg',
+            orange: './src/assets/img/orange.svg',
+        },
     },
 
     food: {
@@ -53,6 +57,10 @@ export const themes = {
         preview: 'food-theme.svg',
         className: 'game--food',
         cardPath: './src/assets/game-2/',
+        playerIcons: {
+            blue: './src/assets/img/food-blue.svg',
+            orange: './src/assets/img/food-orange.svg',
+        },
     },
 } as const;
 

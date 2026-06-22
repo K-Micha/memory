@@ -90,3 +90,15 @@
         }
     }
 }
+
+.header__exit{
+    padding: fct.px-to-rem(16px) fct.px-to-rem(24px);
+
+    &-icon{
+        width: fct.px-to-rem(30px);
+        height: fct.px-to-rem(30px);
+    }
+    &-text{
+        font-size: fct.px-to-rem(map.get(typo.$font-sizes, lg));
+    }
+}

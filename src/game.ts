@@ -15,11 +15,6 @@ const fallbackSettings: GameSettings = {
     boardSize: 16,
 };
 
-const playerIcons = {
-    blue: './src/assets/img/blue.svg',
-    orange: './src/assets/img/orange.svg',
-} as const;
-
 function loadSettings(): GameSettings {
     const saved = localStorage.getItem('gameSettings');
 
@@ -31,33 +26,25 @@ function loadSettings(): GameSettings {
 }
 
 const settings = loadSettings();
+const playerIcons = themes[settings.theme].playerIcons;
 
 const gameEl = document.querySelector<HTMLElement>('.game');
 const field = document.getElementById('field') as HTMLElement;
 const template = document.querySelector('.card') as HTMLButtonElement;
 
-field.classList.add(
-    `game__board-wrapper--${settings.boardSize}`
-);
-
-const imageCache = new Map<string, HTMLImageElement>();
-
-function preloadImages(imageNames: string[]): void {
-    imageNames.forEach(imageName => {
-        const imagePath =
-            `${themes[settings.theme].cardPath}${imageName}.svg`;
-
-        const image = new Image();
-
-        image.src = imagePath;
-
-        imageCache.set(imageName, image);
-    });
-}
+field.classList.add(`game__board-wrapper--${settings.boardSize}`);
 
 const scoreBlue = document.getElementById('score-blue') as HTMLElement;
 const scoreOrange = document.getElementById('score-orange') as HTMLElement;
-const currentPlayerIcon = document.getElementById('current-player-icon') as HTMLImageElement;
+
+const bluePlayerIcon =
+    document.getElementById('player-blue-icon') as HTMLImageElement;
+
+const orangePlayerIcon =
+    document.getElementById('player-orange-icon') as HTMLImageElement;
+
+const currentPlayerIcon =
+    document.getElementById('current-player-icon') as HTMLImageElement;
 
 let currentPlayerIndex = 0;
 let flippedCards: HTMLButtonElement[] = [];
@@ -67,8 +54,34 @@ const scores: Record<Player, number> = {
     orange: 0,
 };
 
+const imageCache = new Map<string, HTMLImageElement>();
+
 if (gameEl) {
     gameEl.className = `game ${themes[settings.theme].className}`;
+}
+
+function applyBodyTheme(theme: Theme): void {
+    document.body.classList.remove('body--code', 'body--food');
+    document.body.classList.add(`body--${theme}`);
+}
+
+function updateThemeIcons(): void {
+    bluePlayerIcon.src = playerIcons.blue;
+    bluePlayerIcon.alt = 'blue';
+
+    orangePlayerIcon.src = playerIcons.orange;
+    orangePlayerIcon.alt = 'orange';
+}
+
+function preloadImages(imageNames: string[]): void {
+    imageNames.forEach(imageName => {
+        const imagePath = `${themes[settings.theme].cardPath}${imageName}.svg`;
+        const image = new Image();
+
+        image.src = imagePath;
+
+        imageCache.set(imageName, image);
+    });
 }
 
 function getCurrentPlayer(): Player {
@@ -118,11 +131,10 @@ function getGameCards(): string[] {
 function createCard(imageName: string): HTMLButtonElement {
     const card = template.cloneNode(true) as HTMLButtonElement;
     const image = card.querySelector('.card__image') as HTMLImageElement;
+    const cachedImage = imageCache.get(imageName);
 
     card.classList.remove('card--template', 'is-flipped', 'is-matched');
     card.dataset.card = imageName;
-
-    const cachedImage = imageCache.get(imageName);
 
     if (cachedImage) {
         image.src = cachedImage.src;
@@ -162,6 +174,7 @@ function checkCards(): void {
 
         updateScore(currentPlayer);
         flippedCards = [];
+
         return;
     }
 
@@ -186,5 +199,7 @@ function renderCards(): void {
     });
 }
 
+applyBodyTheme(settings.theme);
+updateThemeIcons();
 renderCards();
 updateCurrentPlayerDisplay();

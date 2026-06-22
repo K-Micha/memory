@@ -1,13 +1,53 @@
 @use '../abstract/variables' as var;
+@use '../abstract/functions' as fct;
 @use 'sass:map';
 
-.game--code {
-    .header__bg {
-        background-color: map.get(var.$code, header-background);
-    }
 
-    .header__text{
-        color: map.get(var.$colors, font-color-w);
+.body--code {
+    background-color: map.get(var.$colors, dark-primary);
+}
+
+.game--code {
+
+    .header {
+        &__bg {
+            background-color: map.get(var.$code, header-background);
+            width: 292px;
+            height: 60px;
+        }
+
+        &__exit {
+            background: map.get(var.$code, header-background);
+
+            &-text {
+                color: map.get(var.$colors, font-color-w);
+            }
+        }
+
+        &__text {
+            color: map.get(var.$colors, font-color-w);
+        }
+
+        &__label {
+            &--orange {
+                color: map.get(var.$code, player-two);
+            }
+
+            &--blue {
+                color: map.get(var.$code, player-one);
+            }
+        }
+
+        &__value {
+
+            &--orange {
+                color: map.get(var.$code, player-two);
+            }
+
+            &--blue {
+                color: map.get(var.$code, player-one);
+            }
+        }
     }
 
     .card__front {
@@ -21,6 +61,43 @@
 
         &::after {
             background-color: map.get(var.$code, font-light);
+        }
+    }
+}
+
+.body--food {
+    background-color: map.get(var.$food, page-background);
+}
+
+.game--food {
+    .header {
+        background-color: map.get(var.$food, header-background);
+        height: fct.px-to-rem(102px);
+
+        &__bg {
+            width: fct.px-to-rem(292px);
+            height: fct.px-to-rem(60px);
+
+        }
+
+        &__score-panel {
+            background-color: map.get(var.$food, page-background);
+            margin: 0 fct.px-to-rem(16px);
+            border-radius: fct.px-to-rem(10px);
+        }
+
+        &__exit {
+            margin: 0 fct.px-to-rem(16px);
+            border-radius: fct.px-to-rem(10px);
+        }
+    }
+
+     .card__face{
+        &--front{
+            background-color: map.get(var.$food, card-front);
+        }
+        &--back{
+            background-color: map.get(var.$food, header-background);
         }
     }
 }

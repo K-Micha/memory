@@ -12,13 +12,11 @@
 
     @include mx.flex-center(row, space-between, center);
 
-    &__item{
+    &__item {
         @include mx.flex-center();
         gap: fct.px-to-rem(8px);
     }
 
-    &__score-panel,
-    &__current-player,
     &__right {
         flex: 1;
     }
@@ -32,8 +30,6 @@
         display: flex;
         justify-content: center;
         gap: fct.px-to-rem(8px);
-        width: 292px;
-        height: 60px;
         align-items: center;
     }
 
