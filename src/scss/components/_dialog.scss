@@ -1,0 +1,48 @@
+@use '../abstract/mixin' as mx;
+@use '../abstract/variables' as var;
+@use '../abstract/functions' as fct;
+@use '../base/typography' as typo;
+@use 'sass:map';
+
+.modal {
+
+    position: absolute;
+    inset: 0;
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    backdrop-filter: blur(6px);
+    background-color: rgba(0, 0, 0, 0.25);
+
+    z-index: 100;
+
+    &--open {
+        display: flex !important;
+        opacity: 1 !important;
+    }
+
+    &__actions {
+        @include mx.flex-center();
+        gap: fct.px-to-rem(24px);
+    }
+
+    &__box {
+        width: 100%;
+        max-width: fct.px-to-rem(456px);
+        height: fct.px-to-rem(256px);
+
+        padding: 32px;
+        gap: fct.px-to-rem(54px);
+        border-radius: 24px;
+
+        background-color: white;
+        @include mx.flex-center(column, center, center);
+    }
+
+    &__title {
+        text-align: center;
+    }
+}

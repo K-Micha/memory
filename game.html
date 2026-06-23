@@ -11,7 +11,7 @@
 
     <section class="modal modal--hidden" id="exit-modal">
         <div class="modal__box">
-            <h2 class="modal__title">Are you sure you want to quit the game?</h2>
+            <h2 class="modal__title">Are you sure you want <br> to quit the game?</h2>
 
             <div class="modal__actions">
                 <button class="btn modal__button" type="button">Back to game</button>
@@ -42,12 +42,13 @@
 
             <div class="header__current-player">
                 <span class="header__text">Current player:</span>
-
-                <img class="header__current-icon" id="current-player-icon" src="./src/assets/img/blue.svg" alt="">
+                <div id="current-player-wrapper" class="header__current-icon">
+                    <img class="header__current-icon" id="current-player-icon" src="./src/assets/img/blue.svg" alt="">
+                </div>
             </div>
 
-            <button class="btn header__exit" type="button">
-                <img class="header__exit-icon" src="./src/assets/img/exit.svg" alt="">
+            <button id="exit-btn" class="btn header__exit" type="button">
+                <img id="exit-icon" class="header__exit-icon" src="./src/assets/img/exit.svg" alt="">
 
                 <span class="header__exit-text">
                     Exit game
@@ -57,16 +58,16 @@
         </header>
 
         <section class="game__board">
-             <div class="game__board-wrapper" id="field">
+            <div class="game__board-wrapper" id="field">
                 <button class="card">
-                    <div class="card__inner">
+                    <div draggable="false" class="card__inner">
                         <div class="card__face card__face--front">
                             <div class="card__front-image">
                                 <img src="./src/assets/game-1/front.svg" alt="logo">
                             </div>
                         </div>
 
-                        <div class="card__face card__face--back">
+                        <div draggable="false" class="card__face card__face--back">
                             <img class="card__image" src="" alt="">
                         </div>
                     </div>
@@ -74,7 +75,7 @@
             </div>
         </section>
     </main>
-
+    <script type="module" src="./src/game-utils.ts"></script>
     <script type="module" src="/src/main.ts"></script>
     <script type="module" src="./src/game.ts"></script>
 </body>

@@ -21,8 +21,9 @@ img {
 
 .game {
     width: 100%;
-    max-width: 1217px;
+    max-width: fct.px-to-rem(1217px);
     margin-inline: auto;
+    margin-top: 10px;
 
     &__board {
         margin-top: fct.px-to-rem(41px);
@@ -36,7 +37,8 @@ img {
 
         @include mx.flex-center(row, center, center);
     }
-        &__board-wrapper--16 {
+
+    &__board-wrapper--16 {
         gap: fct.px-to-rem(52px);
     }
 
@@ -50,5 +52,8 @@ img {
 }
 
 .modal {
-    opacity: 0;
+    &--hidden {
+        opacity: 0;
+        position: absolute;
+    }
 }

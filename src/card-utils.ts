@@ -50,6 +50,11 @@ export const themes = {
             blue: './src/assets/img/blue.svg',
             orange: './src/assets/img/orange.svg',
         },
+        currentPlayerIcons: {
+            blue: './src/assets/img/blue.svg',
+            orange: './src/assets/img/orange.svg',
+        },
+        exitIcon: './src/assets/img/exit.svg',
     },
 
     food: {
@@ -57,10 +62,18 @@ export const themes = {
         preview: 'food-theme.svg',
         className: 'game--food',
         cardPath: './src/assets/game-2/',
+
         playerIcons: {
             blue: './src/assets/img/food-blue.svg',
             orange: './src/assets/img/food-orange.svg',
         },
+
+        currentPlayerIcons: {
+            blue: './src/assets/img/player-with.svg',
+            orange: './src/assets/img/player-with.svg',
+        },
+
+        exitIcon: './src/assets/img/food-exit.svg',
     },
 } as const;
 

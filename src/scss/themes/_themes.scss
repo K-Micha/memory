@@ -1,5 +1,6 @@
 @use '../abstract/variables' as var;
 @use '../abstract/functions' as fct;
+@use '../base/typography' as typo;
 @use 'sass:map';
 
 
@@ -75,9 +76,49 @@
         height: fct.px-to-rem(102px);
 
         &__bg {
-            width: fct.px-to-rem(292px);
+            width: fct.px-to-rem(159px);
             height: fct.px-to-rem(60px);
+        }
 
+        &__current-icon {
+            height: fct.px-to-rem(31px);
+            &--blue {
+                background-color: map.get(var.$code, player-one);
+                height: fct.px-to-rem(40px);
+                width: fct.px-to-rem(40px);
+                border-radius: 10%;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            &--orange {
+                background-color: map.get(var.$code, player-two);
+                height: fct.px-to-rem(40px);
+                width: fct.px-to-rem(40px);
+                border-radius: 10%;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+            &__value {
+                font-size: fct.px-to-rem(map.get(typo.$font-sizes, xl));
+
+            &--orange {
+                color: map.get(var.$code, player-two);
+            }
+
+            &--blue {
+                color: map.get(var.$code, player-one);
+            }
+        }
+
+        &__label{
+            display: none;
         }
 
         &__score-panel {
@@ -89,14 +130,21 @@
         &__exit {
             margin: 0 fct.px-to-rem(16px);
             border-radius: fct.px-to-rem(10px);
+            background-color: map.get(var.$food, btn-background);
+            border: solid 3px map.get(var.$food, header-border);
+        }
+
+        &__exit-text {
+            color: map.get(var.$food, header-border);
         }
     }
 
-     .card__face{
-        &--front{
+    .card__face {
+        &--front {
             background-color: map.get(var.$food, card-front);
         }
-        &--back{
+
+        &--back {
             background-color: map.get(var.$food, header-background);
         }
     }

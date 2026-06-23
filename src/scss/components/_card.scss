@@ -11,6 +11,11 @@
     aspect-ratio: 1 / 1;
     border: none;
     perspective: 1000px;
+    cursor: pointer;
+
+    &__image {
+        pointer-events: none;
+    }
 
     &__inner {
         position: relative;
