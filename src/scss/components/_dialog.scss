@@ -5,7 +5,6 @@
 @use 'sass:map';
 
 .modal {
-
     position: absolute;
     inset: 0;
 
@@ -30,6 +29,11 @@
     }
 
     &__box {
+        max-width: fct.px-to-rem(539px);
+        height: fct.px-to-rem(270px);
+    }
+
+    &__content {
         width: 100%;
         max-width: fct.px-to-rem(456px);
         height: fct.px-to-rem(256px);
@@ -44,5 +48,22 @@
 
     &__title {
         text-align: center;
+        font-family: 'RedRose', sans-serif;
+        font-size: fct.px-to-rem(map.get(typo.$font-sizes, xl));
+    }
+
+    &__btn {
+        font-family: 'RedRose', sans-serif;
+        font-size: fct.px-to-rem(20px);
+        height: fct.px-to-rem(57px);
+
+        &--back {
+            width: fct.px-to-rem(182px);
+
+        }
+
+        &--exit {
+            width: fct.px-to-rem(148px);
+        }
     }
 }

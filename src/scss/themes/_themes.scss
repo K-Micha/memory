@@ -6,6 +6,19 @@
 
 .body--code {
     background-color: map.get(var.$colors, dark-primary);
+
+    .modal__btn {
+        &--back {
+            background-color: map.get(var.$code, card-front);
+            color: map.get(var.$colors, font-color-w);
+        }
+
+        &--exit {
+            background-color: map.get(var.$code, ext-btn);
+            color: map.get(var.$code, card-front);
+            border: 2px solid map.get(var.$code, card-front);
+        }
+    }
 }
 
 .game--code {
@@ -82,6 +95,7 @@
 
         &__current-icon {
             height: fct.px-to-rem(31px);
+
             &--blue {
                 background-color: map.get(var.$code, player-one);
                 height: fct.px-to-rem(40px);
@@ -105,8 +119,8 @@
             }
         }
 
-            &__value {
-                font-size: fct.px-to-rem(map.get(typo.$font-sizes, xl));
+        &__value {
+            font-size: fct.px-to-rem(map.get(typo.$font-sizes, xl));
 
             &--orange {
                 color: map.get(var.$code, player-two);
@@ -117,7 +131,7 @@
             }
         }
 
-        &__label{
+        &__label {
             display: none;
         }
 

@@ -29,13 +29,26 @@ function closeExitModal(): void {
     exitModal.classList.remove('modal--open');
 }
 
+function backGame(): void {
+    closeExitModal();
+}
+
+function exitGame(): void {
+    window.history.back();
+}
+
 exitBtn.addEventListener('click', openExitModal);
 
-exitModal.addEventListener('click', event => {
+(window as any).backGame = backGame;
+(window as any).exitGame = exitGame;
+
+function handleModalBackdropClick(event: MouseEvent): void {
     if (event.target === exitModal) {
         closeExitModal();
     }
-});
+}
+
+exitModal.addEventListener('click', handleModalBackdropClick);
 
 function switchPlayer(): void {
     currentPlayerIndex = getNextPlayerIndex(

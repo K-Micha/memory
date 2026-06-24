@@ -30,19 +30,9 @@ function getImage(id: string): HTMLImageElement {
 }
 
 const UI = {
-    theme: [
-        getInput('theme-code'),
-        getInput('theme-food'),
-    ],
-    player: [
-        getInput('player-blue'),
-        getInput('player-orange'),
-    ],
-    board: [
-        getInput('board-16'),
-        getInput('board-24'),
-        getInput('board-36'),
-    ],
+    theme: [getInput('theme-code'), getInput('theme-food')],
+    player: [getInput('player-blue'), getInput('player-orange')],
+    board: [getInput('board-16'), getInput('board-24'), getInput('board-36')],
     previewImage: getImage('theme-preview'),
 } as const;
 
@@ -51,33 +41,88 @@ function updateThemePreview(theme: Theme): void {
     UI.previewImage.alt = `${theme} theme preview`;
 }
 
+function resetPlayerAndBoard(): void {
+    UI.player.forEach(player => {
+        player.checked = false;
+    });
+
+    UI.board.forEach(board => {
+        board.checked = false;
+        board.dataset.selected = '0';
+    });
+}
+
+function getSettings(): GameSettings {
+    const theme = (UI.theme.find(theme => theme.checked)?.value as Theme) ?? 'code';
+
+    const players = UI.player
+        .filter(player => player.checked)
+        .map(player => player.value as Player);
+
+    const boardValue = UI.board.find(board => board.checked)?.value;
+    const boardSize = boardValue ? (Number(boardValue) as BoardSize) : null;
+
+    return { theme, players, boardSize };
+}
+
+function saveSettings(): void {
+    const settings = getSettings();
+    console.log('save', settings);
+    localStorage.setItem('gameSettings', JSON.stringify(settings));
+}
+
+function loadSavedSettings(): void {
+    const saved = localStorage.getItem('gameSettings');
+
+    if (!saved) {
+        updateThemePreview('code');
+        return;
+    }
+
+    const settings = JSON.parse(saved) as GameSettings;
+
+    UI.theme.forEach(theme => {
+        theme.checked = theme.value === settings.theme;
+    });
+
+    UI.player.forEach(player => {
+        player.checked = settings.players.includes(player.value as Player);
+    });
+
+    UI.board.forEach(board => {
+        const isSelected = Number(board.value) === settings.boardSize;
+
+        board.checked = isSelected;
+        board.dataset.selected = isSelected ? '1' : '0';
+    });
+
+    updateThemePreview(settings.theme);
+}
+
 function initThemeSelection(): void {
     UI.theme.forEach(input => {
         input.addEventListener('change', () => {
             if (input.checked) {
                 updateThemePreview(input.value as Theme);
+                saveSettings();
             }
         });
     });
-
-    updateThemePreview('code');
 }
 
 function initPlayerSelection(): void {
     UI.player.forEach(player => {
-        player.checked = false;
+        player.addEventListener('change', saveSettings);
     });
 }
 
 function initBoardSelection(): void {
     UI.board.forEach(board => {
-        board.checked = false;
-        board.dataset.selected = '0';
-
         board.addEventListener('click', () => {
             if (board.checked && board.dataset.selected === '1') {
                 board.checked = false;
                 board.dataset.selected = '0';
+                saveSettings();
                 return;
             }
 
@@ -87,6 +132,7 @@ function initBoardSelection(): void {
                 });
 
                 board.dataset.selected = '1';
+                saveSettings();
             }
         });
     });
@@ -104,32 +150,20 @@ function markMissingSettings(): void {
     summary?.classList.add('summary--error');
 }
 
-function getSettings(): GameSettings {
-    const theme = UI.theme.find(t => t.checked)?.value as Theme ?? 'code';
-
-    const players = UI.player
-        .filter(p => p.checked)
-        .map(p => p.value as Player);
-
-    const boardValue = UI.board.find(b => b.checked)?.value;
-    const boardSize = boardValue ? Number(boardValue) as BoardSize : null;
-
-    return { theme, players, boardSize };
-}
-
 function startGame(): void {
     if (!isSettingsValid()) {
         markMissingSettings();
         return;
     }
 
-    const settings = getSettings();
-    localStorage.setItem('gameSettings', JSON.stringify(settings));
-
+    saveSettings();
     window.location.href = './game.html';
 }
 
 (window as any).startGame = startGame;
+
+resetPlayerAndBoard();
+loadSavedSettings();
 
 initThemeSelection();
 initPlayerSelection();
