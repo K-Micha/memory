@@ -25,9 +25,59 @@
 
                     <buttonv onclick="exitGame()" class="btn modal__btn modal__btn--exit" type="button">
                         Exit game
-                    </button>
+                        </button>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section id="game-over" class="game-over game-over--hidden">
+
+        <div class="game-over__box">
+
+            <h2 class="game-over__title-text">
+                GAME OVER
+            </h2>
+
+            <img id="game-over-title" class="game-over__title-img" src="./src/assets/img/game-over.svg" alt="Game over">
+
+            <div class="game-over__score">
+
+                <span class="game-over__label">Final score</span>
+                    <div class="game-over__players">
+
+                        <div id="game-over-blue" class="game-over__player">
+                            <img id="game-over-blue-icon" src="" alt="Blue player icon">
+                            <span class="game-over__name--blue" id="game-over-blue-name">Blue</span>
+                            <span class="game-over__info--blue" id="game-over-blue-score">0</span>
+                        </div>
+
+                        <div id="game-over-orange" class="game-over__player">
+                            <img id="game-over-orange-icon" src="" alt="Orange player icon">
+                            <span class="game-over__name--orange" id="game-over-orange-name">Orange</span>
+                            <span class="game-over__info--orange" id="game-over-orange-score">0</span>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="winner-overlay" class="winner winner--hidden">
+        <div class="winner__confetti" aria-hidden="true"></div>
+
+        <div class="winner__content">
+            <span class="winner__label">The winner is</span>
+
+            <h2 id="winner-name" class="winner__name">
+                ORANGE PLAYER
+            </h2>
+
+            <img id="winner-icon" class="winner__icon" src="" alt="">
+
+            <button class="btn winner__btn" type="button" onclick="backToStart()">
+                Back to start
+            </button>
         </div>
     </section>
 
