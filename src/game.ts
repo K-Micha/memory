@@ -25,51 +25,61 @@ import {
     winnerOverlay,
 } from './game-elements';
 
+/** Loaded game settings.*/
 const settings = loadSettings();
 
 let currentPlayerIndex = 0;
 let flippedCards: HTMLButtonElement[] = [];
 
+/** Locks page scrolling.*/
 function lockScroll(): void {
     document.documentElement.classList.add('no-scroll');
     document.body.classList.add('no-scroll');
 }
 
+/** Unlocks page scrolling.*/
 function unlockScroll(): void {
     document.documentElement.classList.remove('no-scroll');
     document.body.classList.remove('no-scroll');
 }
 
+/** Opens the exit modal.*/
 function openExitModal(): void {
     lockScroll();
     exitModal.classList.add('modal--open');
 }
 
+/** Closes the exit modal.*/
 function closeExitModal(): void {
     exitModal.classList.remove('modal--open');
     unlockScroll();
 }
 
+/** Closes the modal and returns to the game.*/
 function backGame(): void {
     closeExitModal();
 }
 
+/** Exits the current game.*/
 function exitGame(): void {
     unlockScroll();
     window.history.back();
 }
 
+/** Returns to the start page.*/
 function backToStart(): void {
     unlockScroll();
     window.location.href = './index.html';
 }
 
+/** Closes the modal on backdrop click.*/
 function handleModalBackdropClick(event: MouseEvent): void {
     if (event.target === exitModal) {
         closeExitModal();
     }
 }
 
+/** Switches to the next player.*/
 function switchPlayer(): void {
     currentPlayerIndex = getNextPlayerIndex(
         settings.players,
@@ -82,12 +92,14 @@ function switchPlayer(): void {
     );
 }
 
+/** Checks if all cards are matched.*/
 function isGameFinished(): boolean {
     const matchedCards = document.querySelectorAll('.is-matched');
 
     return matchedCards.length === settings.boardSize;
 }
 
+/** Finishes the current turn.*/
 function finishTurn(): void {
     flippedCards = [];
 
@@ -99,6 +111,7 @@ function finishTurn(): void {
     switchPlayer();
 }
 
+/** Handles a matching card pair.*/
 function handleMatch(
     firstCard: HTMLButtonElement,
     secondCard: HTMLButtonElement
@@ -110,6 +123,7 @@ function handleMatch(
     finishTurn();
 }
 
+/** Resets unmatched cards.*/
 function resetCards(
     firstCard: HTMLButtonElement,
     secondCard: HTMLButtonElement
@@ -120,6 +134,7 @@ function resetCards(
     finishTurn();
 }
 
+/** Checks the flipped cards.*/
 function checkCards(): void {
     const [firstCard, secondCard] = flippedCards;
 
@@ -131,6 +146,7 @@ function checkCards(): void {
     setTimeout(() => resetCards(firstCard, secondCard), 800);
 }
 
+/** Checks if a card can be flipped.*/
 function canFlipCard(card: HTMLButtonElement): boolean {
     return (
         !card.classList.contains('is-flipped') &&
@@ -139,6 +155,7 @@ function canFlipCard(card: HTMLButtonElement): boolean {
     );
 }
 
+/** Handles a card click.*/
 function handleCardClick(card: HTMLButtonElement): void {
     if (!canFlipCard(card)) {
         return;
@@ -152,6 +169,7 @@ function handleCardClick(card: HTMLButtonElement): void {
     }
 }
 
+/** Returns the winner.*/
 function getWinner(): Player {
     const scores = getScores();
 
@@ -162,22 +180,26 @@ function getWinner(): Player {
     return scores.blue >= scores.orange ? 'blue' : 'orange';
 }
 
+/** Checks if the game is a draw.*/
 function isDraw(): boolean {
     const scores = getScores();
 
     return settings.players.length > 1 && scores.blue === scores.orange;
 }
 
+/** Opens the game over overlay.*/
 function openGameOverOverlay(): void {
     updateGameOverScores(settings);
     lockScroll();
     gameOverOverlay.classList.add('game-over--open');
 }
 
+/** Closes the game over overlay.*/
 function closeGameOverOverlay(): void {
     gameOverOverlay.classList.remove('game-over--open');
 }
 
+/** Shows the winner overlay state.*/
 function showWinner(): void {
     const winner = getWinner();
 
@@ -186,11 +208,13 @@ function showWinner(): void {
     updateWinnerIcon(settings.theme, winner);
 }
 
+/** Shows the draw overlay state.*/
 function showDraw(): void {
     winnerOverlay.classList.add('winner--draw');
     updateDrawIcon(settings.theme);
 }
 
+/** Opens the winner overlay.*/
 function openWinnerOverlay(): void {
     if (isDraw()) {
         showDraw();
@@ -202,6 +226,7 @@ function openWinnerOverlay(): void {
     winnerOverlay.classList.add('winner--open');
 }
 
+/** Shows the final game sequence.*/
 function showEndSequence(): void {
     openGameOverOverlay();
 
@@ -211,6 +236,7 @@ function showEndSequence(): void {
     }, 3000);
 }
 
+/** Returns all open cards.*/
 function getOpenCards(): HTMLButtonElement[] {
     const cards = document.querySelectorAll<HTMLButtonElement>('.card');
 
@@ -219,6 +245,7 @@ function getOpenCards(): HTMLButtonElement[] {
     });
 }
 
+/** Finds a matching card.*/
 function findMatchingCard(
     firstCard: HTMLButtonElement
 ): HTMLButtonElement | undefined {
@@ -230,6 +257,7 @@ function findMatchingCard(
     });
 }
 
+/** Returns a matching cheat pair.*/
 function getCheatPair(): HTMLButtonElement[] {
     const [firstCard] = getOpenCards();
 
@@ -242,6 +270,7 @@ function getCheatPair(): HTMLButtonElement[] {
     return secondCard ? [firstCard, secondCard] : [];
 }
 
+/** Matches cheat cards.*/
 function matchCheatCards(
     firstCard: HTMLButtonElement,
     secondCard: HTMLButtonElement
@@ -252,6 +281,7 @@ function matchCheatCards(
     updateScore(getCurrentPlayer(settings.players, currentPlayerIndex));
 }
 
+/** Wins one cheat pair.*/
 function cheatWin(): void {
     const [firstCard, secondCard] = getCheatPair();
 
@@ -267,6 +297,7 @@ function cheatWin(): void {
     }
 }
 
+/** Shows a draw for testing.*/
 function cheatDraw(): void {
     showDraw();
     openWinnerOverlay();
@@ -275,6 +306,7 @@ function cheatDraw(): void {
 exitBtn.addEventListener('click', openExitModal);
 exitModal.addEventListener('click', handleModalBackdropClick);
 
+/** Registers global html functions.*/
 function registerWindowFunctions(): void {
     (window as any).backGame = backGame;
     (window as any).exitGame = exitGame;
@@ -283,6 +315,7 @@ function registerWindowFunctions(): void {
     (window as any).cheatDraw = cheatDraw;
 }
 
+/** Sets up the game UI.*/
 function setupGame(): void {
     updateScorePanelState(settings);
     setupGameLayout(settings);
@@ -292,6 +325,7 @@ function setupGame(): void {
     renderCards(settings, handleCardClick);
 }
 
+/** Initializes the game.*/
 function initGame(): void {
     registerWindowFunctions();
     setupGame();

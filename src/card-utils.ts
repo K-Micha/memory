@@ -1,3 +1,4 @@
+/** Available card images for the code theme.*/
 export const techCards = [
     'angular',
     'clip',
@@ -19,6 +20,7 @@ export const techCards = [
     'vs-code',
 ] as const;
 
+/** Available card images for the food theme.*/
 export const foodCards = [
     'burger',
     'donat',
@@ -40,6 +42,7 @@ export const foodCards = [
     'sushi',
 ] as const;
 
+/** Theme configuration for cards, icons and assets.*/
 export const themes = {
     code: {
         cards: techCards,
@@ -96,4 +99,5 @@ export const themes = {
     },
 } as const;
 
+/** Available game themes.*/
 export type Theme = keyof typeof themes;

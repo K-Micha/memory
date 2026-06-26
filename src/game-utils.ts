@@ -1,100 +1,59 @@
 import { themes, type Theme } from './card-utils';
+import { gameElements as el } from './game-elements';
 
+/** Player color.*/
 export type Player = 'blue' | 'orange';
+
+/** Available board sizes.*/
 export type BoardSize = 16 | 24 | 36;
 
+/** Current game settings.*/
 export type GameSettings = {
     theme: Theme;
     players: Player[];
     boardSize: BoardSize;
 };
 
+/** Default game settings.*/
 const fallbackSettings: GameSettings = {
     theme: 'code',
     players: ['blue'],
     boardSize: 16,
 };
 
-const gameEl = document.querySelector<HTMLElement>('.game');
-const field = document.getElementById('field') as HTMLElement;
-const template = document.querySelector('.card') as HTMLButtonElement;
-
-const scoreBlue = document.getElementById('score-blue') as HTMLElement;
-const scoreOrange = document.getElementById('score-orange') as HTMLElement;
-const exitIcon = document.getElementById('exit-icon') as HTMLImageElement;
-
-const headerPlayerBlue =
-    document.getElementById('header-player-blue') as HTMLElement;
-
-const headerPlayerOrange =
-    document.getElementById('header-player-orange') as HTMLElement;
-
-const bluePlayerIcon =
-    document.getElementById('player-blue-icon') as HTMLImageElement;
-
-const orangePlayerIcon =
-    document.getElementById('player-orange-icon') as HTMLImageElement;
-
-const currentPlayerWrapper =
-    document.getElementById('current-player-wrapper') as HTMLElement;
-
-const currentPlayerIcon =
-    document.getElementById('current-player-icon') as HTMLImageElement;
-
-const gameOverBlue =
-    document.getElementById('game-over-blue') as HTMLElement;
-
-const gameOverOrange =
-    document.getElementById('game-over-orange') as HTMLElement;
-
-const gameOverBlueIcon =
-    document.getElementById('game-over-blue-icon') as HTMLImageElement;
-
-const gameOverOrangeIcon =
-    document.getElementById('game-over-orange-icon') as HTMLImageElement;
-
-const gameOverBlueScore =
-    document.getElementById('game-over-blue-score') as HTMLElement;
-
-const gameOverOrangeScore =
-    document.getElementById('game-over-orange-score') as HTMLElement;
-
+/** Current player scores.*/
 const scores: Record<Player, number> = {
     blue: 0,
     orange: 0,
 };
 
+/** Cached card images.*/
 const imageCache = new Map<string, HTMLImageElement>();
 
-const winnerIcon =
-    document.getElementById('winner-icon') as HTMLImageElement;
-
-const winnerName =
-    document.getElementById('winner-name') as HTMLElement;
-
-export function updateWinnerIcon(
-    theme: Theme,
-    winner: Player
-): void {
-    winnerIcon.src = themes[theme].winnerIcons[winner];
-    winnerIcon.alt = winner;
+/** Updates the winner icon.*/
+export function updateWinnerIcon(theme: Theme, winner: Player): void {
+    el.winnerIcon.src = themes[theme].winnerIcons[winner];
+    el.winnerIcon.alt = winner;
 }
 
+/** Updates the draw icon.*/
 export function updateDrawIcon(theme: Theme): void {
-    winnerIcon.src = themes[theme].winnerIcons.draw;
-    winnerIcon.alt = 'Draw';
+    el.winnerIcon.src = themes[theme].winnerIcons.draw;
+    el.winnerIcon.alt = 'Draw';
 }
 
+/** Updates the winner name.*/
 export function updateWinnerName(winner: Player): void {
-    winnerName.classList.remove(
+    el.winnerName.classList.remove(
         'winner__name--blue',
         'winner__name--orange'
     );
 
-    winnerName.classList.add(`winner__name--${winner}`);
-    winnerName.textContent = `${winner.toUpperCase()} PLAYER`;
+    el.winnerName.classList.add(`winner__name--${winner}`);
+    el.winnerName.textContent = `${winner.toUpperCase()} PLAYER`;
 }
 
+/** Updates the player state.*/
 export function updatePlayerState(
     element: HTMLElement,
     active: boolean
@@ -102,25 +61,13 @@ export function updatePlayerState(
     element.classList.toggle('is-inactive', !active);
 }
 
-function updateBluePlayerState(settings: GameSettings): void {
-    updatePlayerState(
-        headerPlayerBlue,
-        settings.players.includes('blue')
-    );
-}
-
-function updateOrangePlayerState(settings: GameSettings): void {
-    updatePlayerState(
-        headerPlayerOrange,
-        settings.players.includes('orange')
-    );
-}
-
+/** Updates the score panel.*/
 export function updateScorePanelState(settings: GameSettings): void {
-    updateBluePlayerState(settings);
-    updateOrangePlayerState(settings);
+    updatePlayerState(el.headerPlayerBlue, settings.players.includes('blue'));
+    updatePlayerState(el.headerPlayerOrange, settings.players.includes('orange'));
 }
 
+/** Loads saved game settings.*/
 export function loadSettings(): GameSettings {
     const saved = localStorage.getItem('gameSettings');
 
@@ -131,45 +78,38 @@ export function loadSettings(): GameSettings {
     return JSON.parse(saved) as GameSettings;
 }
 
+/** Sets the game layout.*/
 export function setupGameLayout(settings: GameSettings): void {
-    field.classList.add(`game__board-wrapper--${settings.boardSize}`);
+    el.field.classList.add(`game__board-wrapper--${settings.boardSize}`);
 }
 
+/** Applies the game theme.*/
 export function applyGameTheme(theme: Theme): void {
-    if (!gameEl) {
-        return;
-    }
-
-    gameEl.classList.remove('game--code', 'game--food');
-    gameEl.classList.add(themes[theme].className);
+    el.gameEl.classList.remove('game--code', 'game--food');
+    el.gameEl.classList.add(themes[theme].className);
 }
 
+/** Applies the body theme.*/
 export function applyBodyTheme(theme: Theme): void {
     document.body.classList.remove('body--code', 'body--food');
     document.body.classList.add(`body--${theme}`);
 }
 
-function updateBluePlayerIcon(theme: Theme): void {
-    bluePlayerIcon.src = themes[theme].playerIcons.blue;
-    bluePlayerIcon.alt = 'blue';
-}
-
-function updateOrangePlayerIcon(theme: Theme): void {
-    orangePlayerIcon.src = themes[theme].playerIcons.orange;
-    orangePlayerIcon.alt = 'orange';
-}
-
-function updateExitIcon(theme: Theme): void {
-    exitIcon.src = themes[theme].exitIcon;
-    exitIcon.alt = 'exit game';
-}
-
+/** Updates all theme icons.*/
 export function updateThemeIcons(theme: Theme): void {
-    updateBluePlayerIcon(theme);
-    updateOrangePlayerIcon(theme);
-    updateExitIcon(theme);
+    const playerIcons = themes[theme].playerIcons;
+
+    el.bluePlayerIcon.src = playerIcons.blue;
+    el.bluePlayerIcon.alt = 'blue';
+
+    el.orangePlayerIcon.src = playerIcons.orange;
+    el.orangePlayerIcon.alt = 'orange';
+
+    el.exitIcon.src = themes[theme].exitIcon;
+    el.exitIcon.alt = 'exit game';
 }
 
+/** Returns the current player.*/
 export function getCurrentPlayer(
     players: Player[],
     currentPlayerIndex: number
@@ -177,6 +117,7 @@ export function getCurrentPlayer(
     return players[currentPlayerIndex];
 }
 
+/** Returns the next player index.*/
 export function getNextPlayerIndex(
     players: Player[],
     currentPlayerIndex: number
@@ -188,86 +129,85 @@ export function getNextPlayerIndex(
     return currentPlayerIndex === 0 ? 1 : 0;
 }
 
-function updateCurrentPlayerIcon(
-    theme: Theme,
-    player: Player
-): void {
-    currentPlayerIcon.src = themes[theme].currentPlayerIcons[player];
-    currentPlayerIcon.alt = player;
-}
-
-function updateCurrentPlayerWrapper(player: Player): void {
-    currentPlayerWrapper.classList.remove(
-        'header__current-icon--blue',
-        'header__current-icon--orange'
-    );
-
-    currentPlayerWrapper.classList.add(
-        `header__current-icon--${player}`
-    );
-}
-
+/** Updates the current player.*/
 export function updateCurrentPlayerDisplay(
     theme: Theme,
     player: Player
 ): void {
-    updateCurrentPlayerIcon(theme, player);
-    updateCurrentPlayerWrapper(player);
+    el.currentPlayerIcon.src = themes[theme].currentPlayerIcons[player];
+    el.currentPlayerIcon.alt = player;
+
+    el.currentPlayerWrapper.classList.remove(
+        'header__current-icon--blue',
+        'header__current-icon--orange'
+    );
+
+    el.currentPlayerWrapper.classList.add(`header__current-icon--${player}`);
 }
 
+/** Updates the player score.*/
 export function updateScore(player: Player): void {
     scores[player]++;
 
     if (player === 'blue') {
-        scoreBlue.textContent = String(scores[player]);
+        el.scoreBlue.textContent = String(scores[player]);
     }
 
     if (player === 'orange') {
-        scoreOrange.textContent = String(scores[player]);
+        el.scoreOrange.textContent = String(scores[player]);
     }
 }
 
-function updateGameOverVisibility(settings: GameSettings): void {
-    gameOverBlue.classList.toggle(
+/** Updates the game over visibility.*/
+function updateGameOverVisibility(
+    settings: GameSettings
+): void {
+    el.gameOverBlue.classList.toggle(
         'is-hidden',
         !settings.players.includes('blue')
     );
 
-    gameOverOrange.classList.toggle(
+    el.gameOverOrange.classList.toggle(
         'is-hidden',
         !settings.players.includes('orange')
     );
 }
 
+/** Updates the game over player state.*/
 function updateGameOverPlayerState(
     settings: GameSettings
 ): void {
     updatePlayerState(
-        gameOverBlue,
+        el.gameOverBlue,
         settings.players.includes('blue')
     );
 
     updatePlayerState(
-        gameOverOrange,
+        el.gameOverOrange,
         settings.players.includes('orange')
     );
 }
 
+/** Updates the game over icons.*/
 function updateGameOverIcons(
     settings: GameSettings
 ): void {
-    gameOverBlueIcon.src = themes[settings.theme].playerIcons.blue;
-    gameOverBlueIcon.alt = 'Blue player';
+    const playerIcons = themes[settings.theme].playerIcons;
 
-    gameOverOrangeIcon.src = themes[settings.theme].playerIcons.orange;
-    gameOverOrangeIcon.alt = 'Orange player';
+    el.gameOverBlueIcon.src = playerIcons.blue;
+    el.gameOverBlueIcon.alt = 'Blue player';
+
+    el.gameOverOrangeIcon.src = playerIcons.orange;
+    el.gameOverOrangeIcon.alt = 'Orange player';
 }
 
+/** Updates the game over scores.*/
 function updateGameOverPoints(): void {
-    gameOverBlueScore.textContent = String(scores.blue);
-    gameOverOrangeScore.textContent = String(scores.orange);
+    el.gameOverBlueScore.textContent = String(scores.blue);
+    el.gameOverOrangeScore.textContent = String(scores.orange);
 }
 
+/** Updates the game over panel.*/
 export function updateGameOverScores(
     settings: GameSettings
 ): void {
@@ -277,10 +217,12 @@ export function updateGameOverScores(
     updateGameOverPoints();
 }
 
+/** Returns all player scores.*/
 export function getScores(): Record<Player, number> {
     return scores;
 }
 
+/** Returns shuffled game cards.*/
 export function getGameCards(settings: GameSettings): string[] {
     const pairCount = settings.boardSize / 2;
     const themeCards = [...themes[settings.theme].cards];
@@ -292,7 +234,11 @@ export function getGameCards(settings: GameSettings): string[] {
     return [...selectedCards, ...selectedCards].sort(() => Math.random() - 0.5);
 }
 
-export function preloadImages(settings: GameSettings, imageNames: string[]): void {
+/** Preloads all card images.*/
+export function preloadImages(
+    settings: GameSettings,
+    imageNames: string[]
+): void {
     imageNames.forEach(imageName => {
         const imagePath = `${themes[settings.theme].cardPath}${imageName}.svg`;
         const image = new Image();
@@ -302,23 +248,32 @@ export function preloadImages(settings: GameSettings, imageNames: string[]): voi
     });
 }
 
-function cloneCardTemplate(): HTMLButtonElement {
-    return template.cloneNode(true) as HTMLButtonElement;
+/** Returns a cloned card.*/
+function cloneCard(): HTMLButtonElement {
+    return el.template.cloneNode(true) as HTMLButtonElement;
 }
 
-function getCardImage(card: HTMLButtonElement): HTMLImageElement {
+/** Returns the card image.*/
+function getCardImage(
+    card: HTMLButtonElement
+): HTMLImageElement {
     return card.querySelector('.card__image') as HTMLImageElement;
 }
 
-function resetCardClasses(card: HTMLButtonElement): void {
-    card.classList.remove('card--template', 'is-flipped', 'is-matched');
+/** Resets the card state.*/
+function resetCard(card: HTMLButtonElement): void {
+    card.classList.remove(
+        'card--template',
+        'is-flipped',
+        'is-matched'
+    );
 }
 
-function setCardData(card: HTMLButtonElement, imageName: string): void {
-    card.dataset.card = imageName;
-}
-
-function setCardImage(image: HTMLImageElement, imageName: string): void {
+/** Sets the card image.*/
+function setCardImage(
+    image: HTMLImageElement,
+    imageName: string
+): void {
     const cachedImage = imageCache.get(imageName);
 
     if (cachedImage) {
@@ -328,6 +283,7 @@ function setCardImage(image: HTMLImageElement, imageName: string): void {
     image.alt = imageName;
 }
 
+/** Binds the card click.*/
 function bindCardClick(
     card: HTMLButtonElement,
     handleCardClick: (card: HTMLButtonElement) => void
@@ -335,21 +291,24 @@ function bindCardClick(
     card.addEventListener('click', () => handleCardClick(card));
 }
 
+/** Creates a game card.*/
 export function createCard(
     imageName: string,
     handleCardClick: (card: HTMLButtonElement) => void
 ): HTMLButtonElement {
-    const card = cloneCardTemplate();
+    const card = cloneCard();
     const image = getCardImage(card);
 
-    resetCardClasses(card);
-    setCardData(card, imageName);
+    resetCard(card);
+    card.dataset.card = imageName;
+
     setCardImage(image, imageName);
     bindCardClick(card, handleCardClick);
 
     return card;
 }
 
+/** Renders all game cards.*/
 export function renderCards(
     settings: GameSettings,
     handleCardClick: (card: HTMLButtonElement) => void
@@ -358,9 +317,9 @@ export function renderCards(
 
     preloadImages(settings, cards);
 
-    field.innerHTML = '';
+    el.field.innerHTML = '';
 
     cards.forEach(cardName => {
-        field.appendChild(createCard(cardName, handleCardClick));
+        el.field.appendChild(createCard(cardName, handleCardClick));
     });
 }
