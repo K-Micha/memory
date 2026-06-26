@@ -51,9 +51,40 @@ img {
     }
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
+.game-over,
+.winner,
 .modal {
     &--hidden {
         opacity: 0;
         position: absolute;
     }
+}
+
+.game-over{
+        @include mx.flex-center(center, center);
+}
+
+.game-over,
+.winner {
+
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.game-over--open,
+.winner--open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.is-inactive {
+    opacity: 0.35;
+    filter: grayscale(100%);
 }

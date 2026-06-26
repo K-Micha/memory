@@ -1,9 +1,10 @@
 import { themes, type Theme } from './card-utils';
+import { saveSettings, loadSettings } from './storage-utils';
 
 type Player = 'blue' | 'orange';
 type BoardSize = 16 | 24 | 36;
 
-type GameSettings = {
+export type GameSettings = {
     theme: Theme;
     players: Player[];
     boardSize: BoardSize | null;
@@ -53,7 +54,8 @@ function resetPlayerAndBoard(): void {
 }
 
 function getSettings(): GameSettings {
-    const theme = (UI.theme.find(theme => theme.checked)?.value as Theme) ?? 'code';
+    const theme =
+        (UI.theme.find(theme => theme.checked)?.value as Theme) ?? 'code';
 
     const players = UI.player
         .filter(player => player.checked)
@@ -65,21 +67,17 @@ function getSettings(): GameSettings {
     return { theme, players, boardSize };
 }
 
-function saveSettings(): void {
-    const settings = getSettings();
-    console.log('save', settings);
-    localStorage.setItem('gameSettings', JSON.stringify(settings));
+function saveCurrentSettings(): void {
+    saveSettings(getSettings());
 }
 
 function loadSavedSettings(): void {
-    const saved = localStorage.getItem('gameSettings');
+    const settings = loadSettings();
 
-    if (!saved) {
+    if (!settings) {
         updateThemePreview('code');
         return;
     }
-
-    const settings = JSON.parse(saved) as GameSettings;
 
     UI.theme.forEach(theme => {
         theme.checked = theme.value === settings.theme;
@@ -104,7 +102,7 @@ function initThemeSelection(): void {
         input.addEventListener('change', () => {
             if (input.checked) {
                 updateThemePreview(input.value as Theme);
-                saveSettings();
+                saveCurrentSettings();
             }
         });
     });
@@ -112,7 +110,7 @@ function initThemeSelection(): void {
 
 function initPlayerSelection(): void {
     UI.player.forEach(player => {
-        player.addEventListener('change', saveSettings);
+        player.addEventListener('change', saveCurrentSettings);
     });
 }
 
@@ -122,7 +120,7 @@ function initBoardSelection(): void {
             if (board.checked && board.dataset.selected === '1') {
                 board.checked = false;
                 board.dataset.selected = '0';
-                saveSettings();
+                saveCurrentSettings();
                 return;
             }
 
@@ -132,7 +130,7 @@ function initBoardSelection(): void {
                 });
 
                 board.dataset.selected = '1';
-                saveSettings();
+                saveCurrentSettings();
             }
         });
     });
@@ -156,7 +154,7 @@ function startGame(): void {
         return;
     }
 
-    saveSettings();
+    saveCurrentSettings();
     window.location.href = './game.html';
 }
 

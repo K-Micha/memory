@@ -46,14 +46,25 @@ export const themes = {
         preview: 'dev-theme.svg',
         className: 'game--code',
         cardPath: './src/assets/game-1/',
+
         playerIcons: {
             blue: './src/assets/img/blue.svg',
             orange: './src/assets/img/orange.svg',
         },
+
         currentPlayerIcons: {
             blue: './src/assets/img/blue.svg',
             orange: './src/assets/img/orange.svg',
         },
+
+        winnerIcons: {
+            blue: './src/assets/img/food-blue.svg',
+            orange: './src/assets/img/food-orange.svg',
+            draw: './src/assets/img/code-draw.svg',
+        },
+
+        winnerTitle: './src/assets/img/winner.svg',
+
         exitIcon: './src/assets/img/exit.svg',
     },
 
@@ -72,6 +83,14 @@ export const themes = {
             blue: './src/assets/img/player-with.svg',
             orange: './src/assets/img/player-with.svg',
         },
+
+        winnerIcons: {
+            blue: './src/assets/img/food-blue.svg',
+            orange: './src/assets/img/food-orange.svg',
+             draw: './src/assets/img/food-draw.svg',
+        },
+
+        winnerTitle: './src/assets/img/winner-food.svg',
 
         exitIcon: './src/assets/img/food-exit.svg',
     },

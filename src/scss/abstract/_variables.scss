@@ -40,6 +40,8 @@ $code: (
     overlay-button-primary: rgba(102, 207, 188, 1),
     overlay-button-secondary: rgba(134, 233, 214, 0.14),
 
+    shadow: rgba(77, 213, 188, 0.5),
+
     font-light: rgba(255, 255, 255, 1),
     ext-btn: rgba(134, 233, 214, 0.14)
 );
@@ -54,8 +56,11 @@ $food: (
 
     card-front: rgba(243, 131, 45, 1),
 
-    //overlay-button-primary: ...,
-    //overlay-button-secondary: ...,
+    overlay-button-primary: rgba(255, 171, 62, 1),
+    overlay-button-secondary: rgba(255, 249, 242, 1),
+    overlay-button-border: rgba(243, 131, 45, 1),
+
+    overlay-text-color: rgba(164, 82, 18, 1),
 
     font-light: rgba(255, 255, 255, 1),
 );

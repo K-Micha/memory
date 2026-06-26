@@ -19,6 +19,122 @@
             border: 2px solid map.get(var.$code, card-front);
         }
     }
+
+    .winner {
+        background-color: map.get(var.$colors, dark-primary);
+
+        &__content {
+            height: 100dvh;
+        }
+
+        &__confetti {
+            height: fct.px-to-rem(220px);
+            width: 100%;
+            height: fct.px-to-rem(220px);
+            position: absolute;
+            background-image: url('../src/assets/img/Confetti.svg');
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: contain;
+
+            user-select: none;
+            pointer-events: none;
+        }
+
+        &__btn,
+        &__name,
+        &__label {
+            font-family: 'RedRose', sans-serif;
+        }
+
+        &__label {
+            color: map.get(var.$colors, font-color-w);
+        }
+
+        &__btn {
+            background-color: map.get(var.$code, header-background);
+            border: 1px solid map.get(var.$code, card-back);
+            color: map.get(var.$colors, font-color-w);
+        }
+    }
+
+    .winner {
+        &--draw {
+            .winner__confetti {
+                display: none;
+            }
+
+            .winner__name-img {
+                display: block;
+            }
+
+            .winner__name-text {
+                display: none;
+            }
+        }
+
+        .winner__label {
+            font-size: 0;
+        }
+
+        .winner__label::after {
+
+            content: 'It´s a';
+            font-size: fct.px-to-rem(40px);
+        }
+
+        .winner__content {
+            margin-top: 0;
+        }
+    }
+
+    .game-over {
+        background-color: map.get(var.$colors, dark-primary);
+
+        &__title-img {
+            filter: drop-shadow(-7px 0 8px rgba(77, 213, 188, 1));
+            width: fct.px-to-rem(990px);
+            height: fct.px-to-rem(125px);
+            -webkit-user-drag: none;
+            user-select: none;
+            pointer-events: none;
+
+        }
+
+        &__title-text {
+            display: none;
+        }
+
+        &__players {
+            background-color: map.get(var.$code, overlay-button-secondary);
+        }
+
+        &__name,
+        &__info {
+            &--blue {
+                color: map.get(var.$code, player-one);
+                font-family: 'RedRose', sans-serif;
+                font-size: fct.px-to-rem(map.get(typo.$font-sizes, xl));
+            }
+
+            &--orange {
+                color: map.get(var.$code, player-two);
+                font-family: 'RedRose', sans-serif;
+                font-size: fct.px-to-rem(map.get(typo.$font-sizes, xl));
+            }
+        }
+
+        &__label {
+            color: map.get(var.$colors, font-color-w);
+            font-family: 'RedRose', sans-serif;
+            font-size: fct.px-to-rem(26px);
+        }
+
+        &__icon {
+            width: fct.px-to-rem(24px);
+            height: fct.px-to-rem(20px);
+        }
+    }
 }
 
 .game--code {
@@ -81,6 +197,188 @@
 
 .body--food {
     background-color: map.get(var.$food, page-background);
+
+    .game-over {
+        background-color: map.get(var.$code, player-two);
+        font-family: 'Klee One', sans-serif;
+
+
+        &__title-img {
+            display: none;
+        }
+
+        &__title-text {
+            color: map.get(var.$colors, font-color-w);
+            font-weight: 600;
+            font-size: fct.px-to-rem(130px);
+        }
+
+        &__label {
+            color: map.get(var.$colors, font-color-w);
+            font-weight: 600;
+            font-size: fct.px-to-rem(42px);
+        }
+
+        &__players {
+            background-color: map.get(var.$colors, font-color-w);
+        }
+
+        &__name {
+
+            &--blue,
+            &--orange {
+                font-size: 0;
+            }
+        }
+
+        &__info {
+            &--blue {
+                font-family: 'RedRose', sans-serif !important;
+                color: map.get(var.$code, player-one);
+                font-size: fct.px-to-rem(40px);
+            }
+
+            &--orange {
+                font-family: 'RedRose', sans-serif !important;
+                color: map.get(var.$code, player-two);
+                font-size: fct.px-to-rem(40px);
+            }
+        }
+    }
+
+    .winner {
+        &--draw {
+            .winner__confetti {
+                display: none;
+            }
+
+            .winner__name-img {
+                display: none;
+            }
+
+            .winner__name-text {
+                display: block;
+                font-family: 'Klee One', sans-serif;
+                color: map.get(var.$food, card-front);
+                font-size: fct.px-to-rem(128px);
+            }
+            .winner__label{
+                color: map.get(var.$food, card-front);
+                font-family: 'Klee One', sans-serif;
+                font-size: fct.px-to-rem(40px);
+            }
+        }
+
+        .winner__label {
+            font-size: 0;
+        }
+
+        .winner__label::after {
+
+            content: 'It´s a';
+            font-size: fct.px-to-rem(40px);
+        }
+
+        .winner__content {
+            margin-top: 130px;
+        }
+    }
+
+
+    .winner {
+        background-color: map.get(var.$food, page-background);
+
+        &__content {
+            margin-top: fct.px-to-rem(192px);
+        }
+
+        &__icon {
+            height: 298px;
+            width: 260px;
+            background: rgba(247, 230, 213, 1);
+            padding: fct.px-to-rem(24px) fct.px-to-rem(30px);
+            box-shadow:
+                fct.px-to-rem(3px) fct.px-to-rem(3px) fct.px-to-rem(6px) rgba(0, 0, 0, 0.25);
+        }
+
+        &__confetti {
+            display: none;
+        }
+
+        &__name,
+        &__info {
+            &--blue {
+                color: map.get(var.$code, player-one);
+                font-family: 'Klee One', sans-serif;
+                font-size: fct.px-to-rem(80px) !important;
+                font-weight: 600;
+            }
+
+            &--orange {
+                color: map.get(var.$code, player-two);
+                font-family: 'Klee One', sans-serif;
+                font-size: fct.px-to-rem(80px) !important;
+                font-weight: 600;
+            }
+        }
+
+        &__label {
+            font-family: 'Klee One', sans-serif;
+            color: map.get(var.$food, overlay-text-color);
+            font-weight: 400;
+
+        }
+
+        &__btn {
+            font-size: 0rem;
+            padding: fct.px-to-rem(12px) fct.px-to-rem(20px);
+            background-color: map.get(var.$code, player-two);
+            box-shadow:
+                fct.px-to-rem(3px) fct.px-to-rem(3px) fct.px-to-rem(6px) rgba(0, 0, 0, 0.25);
+            font-family: 'Delius Unicase', sans-serif;
+            border-radius: fct.px-to-rem(10px);
+
+
+            &::after {
+                content: 'Home';
+                font-size: fct.px-to-rem(16px) !important;
+                color: map.get(var.$colors, font-color-w);
+            }
+        }
+    }
+
+    .modal {
+
+        &__content {
+            border-radius: fct.px-to-rem(24px);
+        }
+
+        &__title {
+            font-family: 'Delius Unicase', cursive !important;
+            font-weight: 200;
+            color: map.get(var.$food, overlay-text-color);
+        }
+
+        &__btn {
+            font-family: 'Delius Unicase', cursive !important;
+            font-weight: bold;
+            text-transform: uppercase;
+
+            &--back {
+                background-color: map.get(var.$food, overlay-button-primary);
+                color: map.get(var.$colors, font-color-w);
+                border-radius: 10px;
+                border: 3px solid map.get(var.$food, overlay-button-border);
+            }
+
+            &--exit {
+                background-color: map.get(var.$food, overlay-button-secondary);
+                color: map.get(var.$food, overlay-button-border);
+                border: 3px solid map.get(var.$food, overlay-button-border);
+                border-radius: 10px;
+            }
+        }
+    }
 }
 
 .game--food {

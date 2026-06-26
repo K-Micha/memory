@@ -47,6 +47,34 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Delius Unicase';
+    src: url('/src/assets/fonts/DeliusUnicase-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Delius Unicase';
+    src: url('/src/assets/fonts/DeliusUnicase-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Klee One';
+    src: url('/src/assets/fonts/klee_one/KleeOne-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Klee One';
+    src: url('/src/assets/fonts/klee_one/KleeOne-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
 $font-sizes: (
     base: 16px,
     md: 20px,

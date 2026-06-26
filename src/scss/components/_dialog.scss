@@ -40,7 +40,6 @@
 
         padding: 32px;
         gap: fct.px-to-rem(54px);
-        border-radius: 24px;
 
         background-color: white;
         @include mx.flex-center(column, center, center);
@@ -65,5 +64,72 @@
         &--exit {
             width: fct.px-to-rem(148px);
         }
+    }
+}
+
+.game-over {
+    &__box {
+        @include mx.flex-center(column);
+        max-width: 1440px;
+        gap: 124px;
+    }
+
+    &__score {
+        @include mx.flex-center(column);
+        gap: 24px;
+    }
+
+    &__players {
+        @include mx.flex-center(row);
+        gap: fct.px-to-rem(34px);
+        padding: fct.px-to-rem(17px) fct.px-to-rem(20px) fct.px-to-rem(17px) fct.px-to-rem(20px);
+    }
+
+    &__player {
+        @include mx.flex-center(row);
+        gap: fct.px-to-rem(4px);
+    }
+}
+
+.winner {
+
+    &__content {
+        @include mx.flex-center(column);
+        margin-top: fct.px-to-rem(90px);
+    }
+
+    &__wrapper {
+        @include mx.flex-center(column);
+        gap: fct.px-to-rem(64px);
+    }
+
+    &__label {
+        font-weight: 700;
+        font-size: fct.px-to-rem(40px);
+        margin-bottom: fct.px-to-rem(10px);
+    }
+
+    &__name {
+        font-size: fct.px-to-rem(60px);
+        font-weight: bold;
+
+        &--blue {
+            color: map.get(var.$colors, player-two-color);
+
+        }
+
+        &--orange {
+            color: map.get(var.$colors, player-one-color);
+        }
+    }
+
+    &__icon {
+        width: 200px;
+        height: 250px;
+    }
+
+    &__btn {
+        padding: fct.px-to-rem(16px) fct.px-to-rem(24px) fct.px-to-rem(16px) fct.px-to-rem(24px);
+        font-size: fct.px-to-rem(24px);
     }
 }
