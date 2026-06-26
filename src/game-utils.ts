@@ -102,16 +102,23 @@ export function updatePlayerState(
     element.classList.toggle('is-inactive', !active);
 }
 
-export function updateScorePanelState(settings: GameSettings): void {
+function updateBluePlayerState(settings: GameSettings): void {
     updatePlayerState(
         headerPlayerBlue,
         settings.players.includes('blue')
     );
+}
 
+function updateOrangePlayerState(settings: GameSettings): void {
     updatePlayerState(
         headerPlayerOrange,
         settings.players.includes('orange')
     );
+}
+
+export function updateScorePanelState(settings: GameSettings): void {
+    updateBluePlayerState(settings);
+    updateOrangePlayerState(settings);
 }
 
 export function loadSettings(): GameSettings {
@@ -142,17 +149,25 @@ export function applyBodyTheme(theme: Theme): void {
     document.body.classList.add(`body--${theme}`);
 }
 
-export function updateThemeIcons(theme: Theme): void {
-    const playerIcons = themes[theme].playerIcons;
-
-    bluePlayerIcon.src = playerIcons.blue;
+function updateBluePlayerIcon(theme: Theme): void {
+    bluePlayerIcon.src = themes[theme].playerIcons.blue;
     bluePlayerIcon.alt = 'blue';
+}
 
-    orangePlayerIcon.src = playerIcons.orange;
+function updateOrangePlayerIcon(theme: Theme): void {
+    orangePlayerIcon.src = themes[theme].playerIcons.orange;
     orangePlayerIcon.alt = 'orange';
+}
 
+function updateExitIcon(theme: Theme): void {
     exitIcon.src = themes[theme].exitIcon;
     exitIcon.alt = 'exit game';
+}
+
+export function updateThemeIcons(theme: Theme): void {
+    updateBluePlayerIcon(theme);
+    updateOrangePlayerIcon(theme);
+    updateExitIcon(theme);
 }
 
 export function getCurrentPlayer(
@@ -173,19 +188,31 @@ export function getNextPlayerIndex(
     return currentPlayerIndex === 0 ? 1 : 0;
 }
 
-export function updateCurrentPlayerDisplay(
+function updateCurrentPlayerIcon(
     theme: Theme,
     player: Player
 ): void {
     currentPlayerIcon.src = themes[theme].currentPlayerIcons[player];
     currentPlayerIcon.alt = player;
+}
 
+function updateCurrentPlayerWrapper(player: Player): void {
     currentPlayerWrapper.classList.remove(
         'header__current-icon--blue',
         'header__current-icon--orange'
     );
 
-    currentPlayerWrapper.classList.add(`header__current-icon--${player}`);
+    currentPlayerWrapper.classList.add(
+        `header__current-icon--${player}`
+    );
+}
+
+export function updateCurrentPlayerDisplay(
+    theme: Theme,
+    player: Player
+): void {
+    updateCurrentPlayerIcon(theme, player);
+    updateCurrentPlayerWrapper(player);
 }
 
 export function updateScore(player: Player): void {
@@ -200,9 +227,7 @@ export function updateScore(player: Player): void {
     }
 }
 
-export function updateGameOverScores(settings: GameSettings): void {
-    const playerIcons = themes[settings.theme].playerIcons;
-
+function updateGameOverVisibility(settings: GameSettings): void {
     gameOverBlue.classList.toggle(
         'is-hidden',
         !settings.players.includes('blue')
@@ -212,7 +237,11 @@ export function updateGameOverScores(settings: GameSettings): void {
         'is-hidden',
         !settings.players.includes('orange')
     );
+}
 
+function updateGameOverPlayerState(
+    settings: GameSettings
+): void {
     updatePlayerState(
         gameOverBlue,
         settings.players.includes('blue')
@@ -222,15 +251,30 @@ export function updateGameOverScores(settings: GameSettings): void {
         gameOverOrange,
         settings.players.includes('orange')
     );
+}
 
-    gameOverBlueIcon.src = playerIcons.blue;
+function updateGameOverIcons(
+    settings: GameSettings
+): void {
+    gameOverBlueIcon.src = themes[settings.theme].playerIcons.blue;
     gameOverBlueIcon.alt = 'Blue player';
 
-    gameOverOrangeIcon.src = playerIcons.orange;
+    gameOverOrangeIcon.src = themes[settings.theme].playerIcons.orange;
     gameOverOrangeIcon.alt = 'Orange player';
+}
 
+function updateGameOverPoints(): void {
     gameOverBlueScore.textContent = String(scores.blue);
     gameOverOrangeScore.textContent = String(scores.orange);
+}
+
+export function updateGameOverScores(
+    settings: GameSettings
+): void {
+    updateGameOverVisibility(settings);
+    updateGameOverPlayerState(settings);
+    updateGameOverIcons(settings);
+    updateGameOverPoints();
 }
 
 export function getScores(): Record<Player, number> {
@@ -258,24 +302,50 @@ export function preloadImages(settings: GameSettings, imageNames: string[]): voi
     });
 }
 
-export function createCard(
-    imageName: string,
-    handleCardClick: (card: HTMLButtonElement) => void
-): HTMLButtonElement {
-    const card = template.cloneNode(true) as HTMLButtonElement;
-    const image = card.querySelector('.card__image') as HTMLImageElement;
-    const cachedImage = imageCache.get(imageName);
+function cloneCardTemplate(): HTMLButtonElement {
+    return template.cloneNode(true) as HTMLButtonElement;
+}
 
+function getCardImage(card: HTMLButtonElement): HTMLImageElement {
+    return card.querySelector('.card__image') as HTMLImageElement;
+}
+
+function resetCardClasses(card: HTMLButtonElement): void {
     card.classList.remove('card--template', 'is-flipped', 'is-matched');
+}
+
+function setCardData(card: HTMLButtonElement, imageName: string): void {
     card.dataset.card = imageName;
+}
+
+function setCardImage(image: HTMLImageElement, imageName: string): void {
+    const cachedImage = imageCache.get(imageName);
 
     if (cachedImage) {
         image.src = cachedImage.src;
     }
 
     image.alt = imageName;
+}
 
+function bindCardClick(
+    card: HTMLButtonElement,
+    handleCardClick: (card: HTMLButtonElement) => void
+): void {
     card.addEventListener('click', () => handleCardClick(card));
+}
+
+export function createCard(
+    imageName: string,
+    handleCardClick: (card: HTMLButtonElement) => void
+): HTMLButtonElement {
+    const card = cloneCardTemplate();
+    const image = getCardImage(card);
+
+    resetCardClasses(card);
+    setCardData(card, imageName);
+    setCardImage(image, imageName);
+    bindCardClick(card, handleCardClick);
 
     return card;
 }

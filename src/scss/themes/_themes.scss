@@ -71,20 +71,20 @@
             .winner__name-text {
                 display: none;
             }
-        }
 
-        .winner__label {
-            font-size: 0;
-        }
+            .winner__label {
+                font-size: 0;
+            }
 
-        .winner__label::after {
+            .winner__label::after {
 
-            content: 'It´s a';
-            font-size: fct.px-to-rem(40px);
-        }
+                content: 'It´s a';
+                font-size: fct.px-to-rem(40px);
+            }
 
-        .winner__content {
-            margin-top: 0;
+            .winner__content {
+                margin-top: 0;
+            }
         }
     }
 
@@ -262,25 +262,26 @@
                 color: map.get(var.$food, card-front);
                 font-size: fct.px-to-rem(128px);
             }
-            .winner__label{
+
+            .winner__label {
                 color: map.get(var.$food, card-front);
                 font-family: 'Klee One', sans-serif;
                 font-size: fct.px-to-rem(40px);
             }
-        }
 
-        .winner__label {
-            font-size: 0;
-        }
+            .winner__label {
+                font-size: 0;
+            }
 
-        .winner__label::after {
+            .winner__label::after {
 
-            content: 'It´s a';
-            font-size: fct.px-to-rem(40px);
-        }
+                content: 'It´s a';
+                font-size: fct.px-to-rem(40px);
+            }
 
-        .winner__content {
-            margin-top: 130px;
+            .winner__content {
+                margin-top: 130px;
+            }
         }
     }
 

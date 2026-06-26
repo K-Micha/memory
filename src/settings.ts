@@ -1,5 +1,5 @@
 import { themes, type Theme } from './card-utils';
-import { saveSettings, loadSettings } from './storage-utils';
+import { loadSettings, saveSettings } from './storage-utils';
 
 type Player = 'blue' | 'orange';
 type BoardSize = 16 | 24 | 36;
@@ -42,33 +42,83 @@ function updateThemePreview(theme: Theme): void {
     UI.previewImage.alt = `${theme} theme preview`;
 }
 
-function resetPlayerAndBoard(): void {
+function resetPlayerSelection(): void {
     UI.player.forEach(player => {
         player.checked = false;
     });
+}
 
+function resetBoardSelection(): void {
     UI.board.forEach(board => {
         board.checked = false;
         board.dataset.selected = '0';
     });
 }
 
-function getSettings(): GameSettings {
-    const theme =
-        (UI.theme.find(theme => theme.checked)?.value as Theme) ?? 'code';
+function resetPlayerAndBoard(): void {
+    resetPlayerSelection();
+    resetBoardSelection();
+}
 
-    const players = UI.player
+function getTheme(): Theme {
+    return (
+        (UI.theme.find(theme => theme.checked)?.value as Theme) ??
+        'code'
+    );
+}
+
+function getPlayers(): Player[] {
+    return UI.player
         .filter(player => player.checked)
         .map(player => player.value as Player);
+}
 
+function getBoardSize(): BoardSize | null {
     const boardValue = UI.board.find(board => board.checked)?.value;
-    const boardSize = boardValue ? (Number(boardValue) as BoardSize) : null;
 
-    return { theme, players, boardSize };
+    return boardValue
+        ? (Number(boardValue) as BoardSize)
+        : null;
+}
+
+function getSettings(): GameSettings {
+    return {
+        theme: getTheme(),
+        players: getPlayers(),
+        boardSize: getBoardSize(),
+    };
 }
 
 function saveCurrentSettings(): void {
     saveSettings(getSettings());
+}
+
+function updateSavedTheme(settings: GameSettings): void {
+    UI.theme.forEach(theme => {
+        theme.checked = theme.value === settings.theme;
+    });
+}
+
+function updateSavedPlayers(settings: GameSettings): void {
+    UI.player.forEach(player => {
+        player.checked = settings.players.includes(player.value as Player);
+    });
+}
+
+function updateSavedBoard(settings: GameSettings): void {
+    UI.board.forEach(board => {
+        const isSelected = Number(board.value) === settings.boardSize;
+
+        board.checked = isSelected;
+        board.dataset.selected = isSelected ? '1' : '0';
+    });
+}
+
+function applySavedSettings(settings: GameSettings): void {
+    updateSavedTheme(settings);
+    updateSavedPlayers(settings);
+    updateSavedBoard(settings);
+    updateThemePreview(settings.theme);
 }
 
 function loadSavedSettings(): void {
@@ -79,22 +129,7 @@ function loadSavedSettings(): void {
         return;
     }
 
-    UI.theme.forEach(theme => {
-        theme.checked = theme.value === settings.theme;
-    });
-
-    UI.player.forEach(player => {
-        player.checked = settings.players.includes(player.value as Player);
-    });
-
-    UI.board.forEach(board => {
-        const isSelected = Number(board.value) === settings.boardSize;
-
-        board.checked = isSelected;
-        board.dataset.selected = isSelected ? '1' : '0';
-    });
-
-    updateThemePreview(settings.theme);
+    applySavedSettings(settings);
 }
 
 function initThemeSelection(): void {
@@ -114,33 +149,55 @@ function initPlayerSelection(): void {
     });
 }
 
-function initBoardSelection(): void {
+function clearBoardSelection(): void {
     UI.board.forEach(board => {
-        board.addEventListener('click', () => {
-            if (board.checked && board.dataset.selected === '1') {
-                board.checked = false;
-                board.dataset.selected = '0';
-                saveCurrentSettings();
-                return;
-            }
-
-            if (board.checked) {
-                UI.board.forEach(other => {
-                    other.dataset.selected = '0';
-                });
-
-                board.dataset.selected = '1';
-                saveCurrentSettings();
-            }
-        });
+        board.dataset.selected = '0';
     });
 }
 
-function isSettingsValid(): boolean {
-    const hasPlayer = UI.player.some(player => player.checked);
-    const hasBoard = UI.board.some(board => board.checked);
+function toggleBoardSelection(board: HTMLInputElement): boolean {
+    if (board.checked && board.dataset.selected === '1') {
+        board.checked = false;
+        board.dataset.selected = '0';
+        return true;
+    }
 
-    return hasPlayer && hasBoard;
+    return false;
+}
+
+function selectBoard(board: HTMLInputElement): void {
+    clearBoardSelection();
+    board.dataset.selected = '1';
+}
+
+function handleBoardClick(board: HTMLInputElement): void {
+    if (toggleBoardSelection(board)) {
+        saveCurrentSettings();
+        return;
+    }
+
+    if (board.checked) {
+        selectBoard(board);
+        saveCurrentSettings();
+    }
+}
+
+function initBoardSelection(): void {
+    UI.board.forEach(board => {
+        board.addEventListener('click', () => handleBoardClick(board));
+    });
+}
+
+function hasSelectedPlayer(): boolean {
+    return UI.player.some(player => player.checked);
+}
+
+function hasSelectedBoard(): boolean {
+    return UI.board.some(board => board.checked);
+}
+
+function isSettingsValid(): boolean {
+    return hasSelectedPlayer() && hasSelectedBoard();
 }
 
 function markMissingSettings(): void {
@@ -158,11 +215,17 @@ function startGame(): void {
     window.location.href = './game.html';
 }
 
-(window as any).startGame = startGame;
+function registerWindowFunctions(): void {
+    (window as any).startGame = startGame;
+}
 
-resetPlayerAndBoard();
-loadSavedSettings();
+function initSettings(): void {
+    registerWindowFunctions();
+    resetPlayerAndBoard();
+    loadSavedSettings();
+    initThemeSelection();
+    initPlayerSelection();
+    initBoardSelection();
+}
 
-initThemeSelection();
-initPlayerSelection();
-initBoardSelection();
+initSettings();

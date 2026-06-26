@@ -8,22 +8,24 @@ import {
     renderCards,
     setupGameLayout,
     updateCurrentPlayerDisplay,
+    updateDrawIcon,
     updateGameOverScores,
     updateScore,
+    updateScorePanelState,
     updateThemeIcons,
     updateWinnerIcon,
     updateWinnerName,
-    updateScorePanelState,
-    updateDrawIcon,
     type Player,
 } from './game-utils';
 
-const settings = loadSettings();
+import {
+    exitBtn,
+    exitModal,
+    gameOverOverlay,
+    winnerOverlay,
+} from './game-elements';
 
-const exitBtn = document.getElementById('exit-btn') as HTMLButtonElement;
-const exitModal = document.getElementById('exit-modal') as HTMLElement;
-const gameOverOverlay = document.getElementById('game-over') as HTMLElement;
-const winnerOverlay = document.getElementById('winner-overlay') as HTMLElement;
+const settings = loadSettings();
 
 let currentPlayerIndex = 0;
 let flippedCards: HTMLButtonElement[] = [];
@@ -80,12 +82,65 @@ function switchPlayer(): void {
     );
 }
 
+function isGameFinished(): boolean {
+    const matchedCards = document.querySelectorAll('.is-matched');
+
+    return matchedCards.length === settings.boardSize;
+}
+
+function finishTurn(): void {
+    flippedCards = [];
+
+    if (isGameFinished()) {
+        showEndSequence();
+        return;
+    }
+
+    switchPlayer();
+}
+
+function handleMatch(
+    firstCard: HTMLButtonElement,
+    secondCard: HTMLButtonElement
+): void {
+    firstCard.classList.add('is-matched');
+    secondCard.classList.add('is-matched');
+
+    updateScore(getCurrentPlayer(settings.players, currentPlayerIndex));
+    finishTurn();
+}
+
+function resetCards(
+    firstCard: HTMLButtonElement,
+    secondCard: HTMLButtonElement
+): void {
+    firstCard.classList.remove('is-flipped');
+    secondCard.classList.remove('is-flipped');
+
+    finishTurn();
+}
+
+function checkCards(): void {
+    const [firstCard, secondCard] = flippedCards;
+
+    if (firstCard.dataset.card === secondCard.dataset.card) {
+        handleMatch(firstCard, secondCard);
+        return;
+    }
+
+    setTimeout(() => resetCards(firstCard, secondCard), 800);
+}
+
+function canFlipCard(card: HTMLButtonElement): boolean {
+    return (
+        !card.classList.contains('is-flipped') &&
+        !card.classList.contains('is-matched') &&
+        flippedCards.length < 2
+    );
+}
+
 function handleCardClick(card: HTMLButtonElement): void {
-    if (
-        card.classList.contains('is-flipped') ||
-        card.classList.contains('is-matched') ||
-        flippedCards.length === 2
-    ) {
+    if (!canFlipCard(card)) {
         return;
     }
 
@@ -95,42 +150,6 @@ function handleCardClick(card: HTMLButtonElement): void {
     if (flippedCards.length === 2) {
         checkCards();
     }
-}
-
-function finishTurn(): void {
-    flippedCards = [];
-
-    if (document.querySelectorAll('.is-matched').length === settings.boardSize) {
-        showEndSequence();
-        return;
-    }
-
-    switchPlayer();
-}
-
-function checkCards(): void {
-    const [firstCard, secondCard] = flippedCards;
-    const currentPlayer = getCurrentPlayer(
-        settings.players,
-        currentPlayerIndex
-    );
-
-    if (firstCard.dataset.card === secondCard.dataset.card) {
-        firstCard.classList.add('is-matched');
-        secondCard.classList.add('is-matched');
-
-        updateScore(currentPlayer);
-        finishTurn();
-
-        return;
-    }
-
-    setTimeout(() => {
-        firstCard.classList.remove('is-flipped');
-        secondCard.classList.remove('is-flipped');
-
-        finishTurn();
-    }, 800);
 }
 
 function getWinner(): Player {
@@ -143,6 +162,12 @@ function getWinner(): Player {
     return scores.blue >= scores.orange ? 'blue' : 'orange';
 }
 
+function isDraw(): boolean {
+    const scores = getScores();
+
+    return settings.players.length > 1 && scores.blue === scores.orange;
+}
+
 function openGameOverOverlay(): void {
     updateGameOverScores(settings);
     lockScroll();
@@ -153,22 +178,24 @@ function closeGameOverOverlay(): void {
     gameOverOverlay.classList.remove('game-over--open');
 }
 
-function isDraw(): boolean {
-    const scores = getScores();
+function showWinner(): void {
+    const winner = getWinner();
 
-    return settings.players.length > 1 && scores.blue === scores.orange;
+    winnerOverlay.classList.remove('winner--draw');
+    updateWinnerName(winner);
+    updateWinnerIcon(settings.theme, winner);
+}
+
+function showDraw(): void {
+    winnerOverlay.classList.add('winner--draw');
+    updateDrawIcon(settings.theme);
 }
 
 function openWinnerOverlay(): void {
     if (isDraw()) {
-        winnerOverlay.classList.add('winner--draw');
-        updateDrawIcon(settings.theme);
+        showDraw();
     } else {
-        const winner = getWinner();
-
-        winnerOverlay.classList.remove('winner--draw');
-        updateWinnerName(winner);
-        updateWinnerIcon(settings.theme, winner);
+        showWinner();
     }
 
     lockScroll();
@@ -181,83 +208,98 @@ function showEndSequence(): void {
     setTimeout(() => {
         closeGameOverOverlay();
         openWinnerOverlay();
-    }, 6000); // original 3000
+    }, 3000);
 }
 
-function cheatWin(): void {
-    const cards = Array.from(
-        document.querySelectorAll<HTMLButtonElement>('.card')
-    );
+function getOpenCards(): HTMLButtonElement[] {
+    const cards = document.querySelectorAll<HTMLButtonElement>('.card');
 
-    const openCards = cards.filter(card => {
-        return (
-            !card.classList.contains('is-matched') &&
-            card.dataset.card
-        );
+    return Array.from(cards).filter(card => {
+        return !card.classList.contains('is-matched') && card.dataset.card;
     });
+}
 
-    const firstCard = openCards[0];
-
-    if (!firstCard) {
-        showEndSequence();
-        return;
-    }
-
-    const secondCard = openCards.find(card => {
+function findMatchingCard(
+    firstCard: HTMLButtonElement
+): HTMLButtonElement | undefined {
+    return getOpenCards().find(card => {
         return (
             card !== firstCard &&
             card.dataset.card === firstCard.dataset.card
         );
     });
+}
 
-    if (!secondCard) {
+function getCheatPair(): HTMLButtonElement[] {
+    const [firstCard] = getOpenCards();
+
+    if (!firstCard) {
+        return [];
+    }
+
+    const secondCard = findMatchingCard(firstCard);
+
+    return secondCard ? [firstCard, secondCard] : [];
+}
+
+function matchCheatCards(
+    firstCard: HTMLButtonElement,
+    secondCard: HTMLButtonElement
+): void {
+    firstCard.classList.add('is-flipped', 'is-matched');
+    secondCard.classList.add('is-flipped', 'is-matched');
+
+    updateScore(getCurrentPlayer(settings.players, currentPlayerIndex));
+}
+
+function cheatWin(): void {
+    const [firstCard, secondCard] = getCheatPair();
+
+    if (!firstCard || !secondCard) {
+        showEndSequence();
         return;
     }
 
-    firstCard.classList.add('is-flipped');
-    secondCard.classList.add('is-flipped');
+    matchCheatCards(firstCard, secondCard);
 
-    firstCard.classList.add('is-matched');
-    secondCard.classList.add('is-matched');
-
-    updateScore(getCurrentPlayer(settings.players, currentPlayerIndex));
-
-    if (document.querySelectorAll('.is-matched').length === settings.boardSize) {
+    if (isGameFinished()) {
         showEndSequence();
     }
+}
+
+function cheatDraw(): void {
+    showDraw();
+    openWinnerOverlay();
 }
 
 exitBtn.addEventListener('click', openExitModal);
 exitModal.addEventListener('click', handleModalBackdropClick);
 
-(window as any).backGame = backGame;
-(window as any).exitGame = exitGame;
-(window as any).backToStart = backToStart;
-(window as any).cheatWin = cheatWin;
-
-updateScorePanelState(settings);
-setupGameLayout(settings);
-applyGameTheme(settings.theme);
-applyBodyTheme(settings.theme);
-updateThemeIcons(settings.theme);
-renderCards(settings, handleCardClick);
-
-
-updateCurrentPlayerDisplay(
-    settings.theme,
-    getCurrentPlayer(settings.players, currentPlayerIndex)
-);
-
-
-function cheatDraw(): void {
-    winnerOverlay.classList.add('winner--draw');
-    openWinnerOverlay();
+function registerWindowFunctions(): void {
+    (window as any).backGame = backGame;
+    (window as any).exitGame = exitGame;
+    (window as any).backToStart = backToStart;
+    (window as any).cheatWin = cheatWin;
+    (window as any).cheatDraw = cheatDraw;
 }
 
-(window as any).cheatDraw = cheatDraw;
+function setupGame(): void {
+    updateScorePanelState(settings);
+    setupGameLayout(settings);
+    applyGameTheme(settings.theme);
+    applyBodyTheme(settings.theme);
+    updateThemeIcons(settings.theme);
+    renderCards(settings, handleCardClick);
+}
 
-// openWinnerOverlay();
-// showEndSequence();
+function initGame(): void {
+    registerWindowFunctions();
+    setupGame();
 
-//cheatWin()
-//cheatDraw()
+    updateCurrentPlayerDisplay(
+        settings.theme,
+        getCurrentPlayer(settings.players, currentPlayerIndex)
+    );
+}
+
+initGame();
