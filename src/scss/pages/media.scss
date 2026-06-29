@@ -1,0 +1,355 @@
+@use '../abstract/functions' as fct;
+@use '../abstract/mixin' as mx;
+@use '../abstract/variables' as var;
+@use '../base/typography' as typo;
+@use 'sass:map';
+
+@media (min-height: 1300px) {
+    .settings {
+        @include mx.flex-center();
+    }
+}
+
+@media (max-width: 992px) {
+
+    .game {
+        margin-bottom: 30px;
+    }
+
+    .hero__wrapper {
+        p {
+            font-size: fct.px-to-rem(map.get(typo.$font-sizes, xxl));
+        }
+
+        h1 {
+            font-size: fct.px-to-rem(80px);
+        }
+    }
+
+    .settings {
+        margin-top: fct.px-to-rem(80px);
+    }
+
+    .options {
+
+        &__header {
+            h2 {
+                font-size: fct.px-to-rem(map.get(typo.$font-sizes, lg));
+            }
+        }
+
+        label {
+            font-size: fct.px-to-rem(map.get(typo.$font-sizes, base));
+        }
+    }
+
+    .theme-preview {
+        width: fct.px-to-rem(350px);
+
+        &__image {
+            width: fct.px-to-rem(350px);
+        }
+    }
+
+    .summary {
+        z-index: 20;
+        position: absolute;
+        position: absolute;
+        right: 0;
+        bottom: fct.px-to-rem(50px);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .options {
+        position: absolute;
+        z-index: 20;
+    }
+
+    .hero__wrapper {
+        p {
+            font-size: fct.px-to-rem(map.get(typo.$font-sizes, xl));
+        }
+
+        h1 {
+            font-size: fct.px-to-rem(map.get(var.$sizes, xxl));
+        }
+    }
+
+    .theme-preview__image {
+        width: fct.px-to-rem(250px);
+        right: fct.px-to-rem(50px);
+        position: absolute;
+    }
+
+    .summary {
+        z-index: 20;
+        position: absolute;
+        right: 0;
+        left: fct.px-to-rem(70px);
+        bottom: fct.px-to-rem(50px);
+    }
+
+    .header {
+        &__text {
+            display: none;
+        }
+    }
+
+    .game__board-wrapper {
+        &--16 {
+            gap: 2.25rem;
+        }
+    }
+}
+
+
+@media (max-width: 670px) {
+    .game {
+        &__bord {
+            height: calc(100dvh - 120px);
+        }
+
+        &__board-wrapper {
+            justify-content: center;
+            align-content: start;
+
+            &--16 {
+
+                .card {
+                    grid-template-columns: repeat(3, 0px);
+                    width: 110px;
+                    height: auto;
+                }
+            }
+
+            &--24 {
+                position: absolute;
+                left: 20px;
+
+                .card {
+                    grid-template-columns: repeat(3, 0px);
+                    width: 100px;
+                    height: auto;
+                }
+            }
+
+            &--36 {
+                position: absolute;
+                left: 20px;
+
+                .card {
+                    width: 90px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 910px) {
+    .game {
+        &__board-wrapper {
+            &--36 {
+                left: 0;
+                position: absolute;
+                margin-inline: 20px;
+
+                .card {
+                    grid-template-columns: repeat(3, 0px);
+                    width: 100px;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 610px) {
+    .game {
+        &__board-wrapper {
+            &--16 {
+                gap: 1.25rem !important;
+                left: 0;
+                position: absolute;
+
+                .card {
+                    grid-template-columns: repeat(3, 0px);
+                    width: 100px;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    .game {
+        &__board-wrapper {
+
+            &--36 {
+
+                .card {
+                    width: 80px;
+                }
+            }
+        }
+    }
+}
+
+
+@media (max-height: 900px) {
+    .summary {
+        margin-bottom: -100px;
+    }
+}
+
+@media (max-height: 670px){
+        .yellow {
+        margin-bottom: -100px;
+    }
+}
+
+
+@media (max-width: 450px) {
+    .modal {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100dvh;
+
+        display: none;
+        justify-content: center;
+        align-items: center;
+
+        &--open {
+            display: flex;
+            border-radius: 0;
+        }
+
+        &__box {
+            width: 100%;
+            max-width: 33.6875rem;
+            height: auto;
+        }
+
+
+        &__title {
+            font-size: 1.4rem;
+            text-align: center;
+        }
+
+        &__actions {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        &__content {
+            height: 100vh;
+            border-radius: 0 !important;
+        }
+    }
+
+    .game {
+        &__board-wrapper {
+            &--16 {
+                gap: 2rem;
+
+                .card {
+                    width: 70px;
+                    height: auto;
+                }
+            }
+
+            &--24 {
+                left: 0;
+                position: absolute;
+
+                .card {
+                    width: 75px;
+                }
+            }
+
+            &--36 {
+
+                .card {
+                    width: 55px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 590px) {
+
+    .header {
+        &__exit-text {
+            display: none;
+        }
+    }
+
+    .theme-preview__image {
+        display: none;
+    }
+
+    .settings__content {
+        display: block;
+    }
+
+    .summary {
+        height: auto;
+        width: auto;
+        background: none;
+
+        &__item {
+            display: none;
+        }
+
+        .indicator {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 590px) {
+    .header {
+        &__exit {
+            padding: fct.px-to-rem(10px) fct.px-to-rem(10px);
+        }
+
+        &__bg {
+            gap: 5px !important;
+            width: auto !important;
+            height: auto !important;
+        }
+    }
+}
+
+@media (max-width: 360px) {
+    .hero__wrapper {
+        p {
+            font-size: fct.px-to-rem(map.get(typo.$font-sizes, lg));
+        }
+
+        h1 {
+            font-size: fct.px-to-rem(map.get(var.$sizes, xl));
+        }
+    }
+
+    .header__bg {
+        flex-direction: column;
+    }
+
+    .game {
+        &__board-wrapper {
+            &--16 {
+                gap: 2rem;
+
+                .card {
+                    width: 50px;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
