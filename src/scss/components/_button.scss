@@ -102,3 +102,6 @@
         font-size: fct.px-to-rem(map.get(typo.$font-sizes, lg));
     }
 }
+.summary__item--hight.is-disabled{
+    filter: grayscale(0.5);
+}

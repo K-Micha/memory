@@ -10,14 +10,14 @@ export type BoardSize = 16 | 24 | 36;
 /** Current game settings.*/
 export type GameSettings = {
     theme: Theme;
-    players: Player[];
+    startingPlayer: Player;
     boardSize: BoardSize;
 };
 
 /** Default game settings.*/
 const fallbackSettings: GameSettings = {
     theme: 'code',
-    players: ['blue'],
+    startingPlayer: 'blue',
     boardSize: 16,
 };
 
@@ -62,9 +62,9 @@ export function updatePlayerState(
 }
 
 /** Updates the score panel.*/
-export function updateScorePanelState(settings: GameSettings): void {
-    updatePlayerState(el.headerPlayerBlue, settings.players.includes('blue'));
-    updatePlayerState(el.headerPlayerOrange, settings.players.includes('orange'));
+export function updateScorePanelState(): void {
+    updatePlayerState(el.headerPlayerBlue, true);
+    updatePlayerState(el.headerPlayerOrange, true);
 }
 
 /** Loads saved game settings.*/
@@ -75,7 +75,13 @@ export function loadSettings(): GameSettings {
         return fallbackSettings;
     }
 
-    return JSON.parse(saved) as GameSettings;
+    const settings = JSON.parse(saved) as Partial<GameSettings>;
+
+    return {
+        theme: settings.theme ?? fallbackSettings.theme,
+        startingPlayer: settings.startingPlayer ?? fallbackSettings.startingPlayer,
+        boardSize: settings.boardSize ?? fallbackSettings.boardSize,
+    };
 }
 
 /** Sets the game layout.*/
@@ -109,24 +115,9 @@ export function updateThemeIcons(theme: Theme): void {
     el.exitIcon.alt = 'exit game';
 }
 
-/** Returns the current player.*/
-export function getCurrentPlayer(
-    players: Player[],
-    currentPlayerIndex: number
-): Player {
-    return players[currentPlayerIndex];
-}
-
-/** Returns the next player index.*/
-export function getNextPlayerIndex(
-    players: Player[],
-    currentPlayerIndex: number
-): number {
-    if (players.length < 2) {
-        return currentPlayerIndex;
-    }
-
-    return currentPlayerIndex === 0 ? 1 : 0;
+/** Returns the next player.*/
+export function getNextPlayer(player: Player): Player {
+    return player === 'blue' ? 'orange' : 'blue';
 }
 
 /** Updates the current player.*/
@@ -158,40 +149,8 @@ export function updateScore(player: Player): void {
     }
 }
 
-/** Updates the game over visibility.*/
-function updateGameOverVisibility(
-    settings: GameSettings
-): void {
-    el.gameOverBlue.classList.toggle(
-        'is-hidden',
-        !settings.players.includes('blue')
-    );
-
-    el.gameOverOrange.classList.toggle(
-        'is-hidden',
-        !settings.players.includes('orange')
-    );
-}
-
-/** Updates the game over player state.*/
-function updateGameOverPlayerState(
-    settings: GameSettings
-): void {
-    updatePlayerState(
-        el.gameOverBlue,
-        settings.players.includes('blue')
-    );
-
-    updatePlayerState(
-        el.gameOverOrange,
-        settings.players.includes('orange')
-    );
-}
-
 /** Updates the game over icons.*/
-function updateGameOverIcons(
-    settings: GameSettings
-): void {
+function updateGameOverIcons(settings: GameSettings): void {
     const playerIcons = themes[settings.theme].playerIcons;
 
     el.gameOverBlueIcon.src = playerIcons.blue;
@@ -208,11 +167,9 @@ function updateGameOverPoints(): void {
 }
 
 /** Updates the game over panel.*/
-export function updateGameOverScores(
-    settings: GameSettings
-): void {
-    updateGameOverVisibility(settings);
-    updateGameOverPlayerState(settings);
+export function updateGameOverScores(settings: GameSettings): void {
+    updatePlayerState(el.gameOverBlue, true);
+    updatePlayerState(el.gameOverOrange, true);
     updateGameOverIcons(settings);
     updateGameOverPoints();
 }
@@ -254,9 +211,7 @@ function cloneCard(): HTMLButtonElement {
 }
 
 /** Returns the card image.*/
-function getCardImage(
-    card: HTMLButtonElement
-): HTMLImageElement {
+function getCardImage(card: HTMLButtonElement): HTMLImageElement {
     return card.querySelector('.card__image') as HTMLImageElement;
 }
 

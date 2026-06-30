@@ -1,8 +1,7 @@
 import {
     applyBodyTheme,
     applyGameTheme,
-    getCurrentPlayer,
-    getNextPlayerIndex,
+    getNextPlayer,
     getScores,
     loadSettings,
     renderCards,
@@ -28,7 +27,7 @@ import {
 /** Loaded game settings.*/
 const settings = loadSettings();
 
-let currentPlayerIndex = 0;
+let currentPlayer: Player = settings.startingPlayer;
 let flippedCards: HTMLButtonElement[] = [];
 
 /** Locks page scrolling.*/
@@ -81,15 +80,8 @@ function handleModalBackdropClick(event: MouseEvent): void {
 
 /** Switches to the next player.*/
 function switchPlayer(): void {
-    currentPlayerIndex = getNextPlayerIndex(
-        settings.players,
-        currentPlayerIndex
-    );
-
-    updateCurrentPlayerDisplay(
-        settings.theme,
-        getCurrentPlayer(settings.players, currentPlayerIndex)
-    );
+    currentPlayer = getNextPlayer(currentPlayer);
+    updateCurrentPlayerDisplay(settings.theme, currentPlayer);
 }
 
 /** Checks if all cards are matched.*/
@@ -119,7 +111,7 @@ function handleMatch(
     firstCard.classList.add('is-matched');
     secondCard.classList.add('is-matched');
 
-    updateScore(getCurrentPlayer(settings.players, currentPlayerIndex));
+    updateScore(currentPlayer);
     finishTurn();
 }
 
@@ -173,10 +165,6 @@ function handleCardClick(card: HTMLButtonElement): void {
 function getWinner(): Player {
     const scores = getScores();
 
-    if (settings.players.length === 1) {
-        return settings.players[0];
-    }
-
     return scores.blue >= scores.orange ? 'blue' : 'orange';
 }
 
@@ -184,7 +172,7 @@ function getWinner(): Player {
 function isDraw(): boolean {
     const scores = getScores();
 
-    return settings.players.length > 1 && scores.blue === scores.orange;
+    return scores.blue === scores.orange;
 }
 
 /** Opens the game over overlay.*/
@@ -278,11 +266,11 @@ function matchCheatCards(
     firstCard.classList.add('is-flipped', 'is-matched');
     secondCard.classList.add('is-flipped', 'is-matched');
 
-    updateScore(getCurrentPlayer(settings.players, currentPlayerIndex));
+    updateScore(currentPlayer);
 }
 
 /** Wins one cheat pair.*/
-function cheatWin(): void {
+function cheat(): void {
     const [firstCard, secondCard] = getCheatPair();
 
     if (!firstCard || !secondCard) {
@@ -311,13 +299,13 @@ function registerWindowFunctions(): void {
     (window as any).backGame = backGame;
     (window as any).exitGame = exitGame;
     (window as any).backToStart = backToStart;
-    (window as any).cheatWin = cheatWin;
+    (window as any).cheat = cheat;
     (window as any).cheatDraw = cheatDraw;
 }
 
 /** Sets up the game UI.*/
 function setupGame(): void {
-    updateScorePanelState(settings);
+    updateScorePanelState();
     setupGameLayout(settings);
     applyGameTheme(settings.theme);
     applyBodyTheme(settings.theme);
@@ -329,11 +317,7 @@ function setupGame(): void {
 function initGame(): void {
     registerWindowFunctions();
     setupGame();
-
-    updateCurrentPlayerDisplay(
-        settings.theme,
-        getCurrentPlayer(settings.players, currentPlayerIndex)
-    );
+    updateCurrentPlayerDisplay(settings.theme, currentPlayer);
 }
 
 initGame();

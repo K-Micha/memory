@@ -23,9 +23,9 @@
                         Back to game
                     </button>
 
-                    <buttonv onclick="exitGame()" class="btn modal__btn modal__btn--exit" type="button">
+                    <button onclick="exitGame()" class="btn modal__btn modal__btn--exit" type="button">
                         Exit game
-                        </button>
+                    </button>
                 </div>
             </div>
         </div>
@@ -65,7 +65,16 @@
     </section>
 
     <section id="winner-overlay" class="winner winner--hidden">
-        <div class="winner__confetti" aria-hidden="true"></div>
+        <div class="winner__confetti" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
         <div class="winner__content">
             <span class="winner__label">The winner is</span>
@@ -91,13 +100,15 @@
                 <div class="header__bg">
 
                     <div id="header-player-blue" class="header__item header__item--blue">
-                        <img id="player-blue-icon" class="header__icon" src="./src/assets/img/blue.svg" alt="blue player icon">
+                        <img id="player-blue-icon" class="header__icon" src="./src/assets/img/blue.svg"
+                            alt="blue player icon">
                         <span class="header__label header__label--blue">Blue</span>
                         <span class="header__value header__value--blue" id="score-blue">0</span>
                     </div>
 
                     <div id="header-player-orange" class="header__item header__item--orange">
-                        <img id="player-orange-icon" class="header__icon" src="./src/assets/img/orange.svg" alt="orange player icon">
+                        <img id="player-orange-icon" class="header__icon" src="./src/assets/img/orange.svg"
+                            alt="orange player icon">
                         <span class="header__label header__label--orange">Orange</span>
                         <span class="header__value header__value--orange" id="score-orange">0</span>
                     </div>
@@ -107,7 +118,8 @@
             <div class="header__current-player">
                 <span class="header__text">Current player:</span>
                 <div id="current-player-wrapper" class="header__current-icon">
-                    <img class="header__current-icon" id="current-player-icon" src="./src/assets/img/blue.svg" alt="current icon">
+                    <img class="header__current-icon" id="current-player-icon" src="./src/assets/img/blue.svg"
+                        alt="current icon">
                 </div>
             </div>
 

@@ -8,6 +8,11 @@
     .settings {
         @include mx.flex-center();
     }
+
+    .hero__wrapper::before {
+        left: 54px;
+        bottom: 80px;
+    }
 }
 
 @media (max-width: 992px) {
@@ -204,8 +209,8 @@
     }
 }
 
-@media (max-height: 670px){
-        .yellow {
+@media (max-height: 670px) {
+    .yellow {
         margin-bottom: -100px;
     }
 }

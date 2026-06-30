@@ -28,17 +28,113 @@
         }
 
         &__confetti {
-            height: fct.px-to-rem(220px);
-            width: 100%;
-            height: fct.px-to-rem(220px);
+            opacity: 0;
             position: absolute;
-            background-image: url('../src/assets/img/Confetti.svg');
-            background-repeat: no-repeat;
-            background-position: center top;
-            background-size: contain;
-
+            top: 0;
+            left: 50%;
+            width: fct.px-to-rem(980px);
+            height: fct.px-to-rem(240px);
+            transform: translateX(-50%);
             user-select: none;
             pointer-events: none;
+
+            span {
+                position: absolute;
+                display: block;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+            }
+
+            span:nth-child(1) {
+                width: fct.px-to-rem(243.4px);
+                height: fct.px-to-rem(190.28px);
+                top: fct.px-to-rem(32px);
+                left: fct.px-to-rem(114px);
+                background-image: url('/src/assets/confetti/confetti1.svg');
+                transform: rotate(-17.69deg);
+            }
+
+            span:nth-child(2) {
+                width: fct.px-to-rem(155.26px);
+                height: fct.px-to-rem(202.37px);
+                top: fct.px-to-rem(34px);
+                left: fct.px-to-rem(721px);
+                background-image: url('/src/assets/confetti/confetti2.svg');
+                transform: rotate(-97.13deg);
+            }
+
+            span:nth-child(3) {
+                width: fct.px-to-rem(114.57px);
+                height: fct.px-to-rem(202.37px);
+                top: fct.px-to-rem(0px);
+                left: fct.px-to-rem(918px);
+                background-image: url('/src/assets/confetti/confetti3.svg');
+                transform: rotate(37.16deg);
+            }
+
+            span:nth-child(4) {
+                width: fct.px-to-rem(89.89px);
+                height: fct.px-to-rem(121.09px);
+                top: fct.px-to-rem(157.78px);
+                left: fct.px-to-rem(882.53px);
+                background-image: url('/src/assets/confetti/confetti4.svg');
+                transform: rotate(73.99deg);
+            }
+
+            span:nth-child(5) {
+                width: fct.px-to-rem(243.4px);
+                height: fct.px-to-rem(190.28px);
+                top: fct.px-to-rem(28px);
+                left: fct.px-to-rem(468px);
+                background-image: url('/src/assets/confetti/confetti5.svg');
+                transform: rotate(13.07deg);
+            }
+
+            span:nth-child(6) {
+                width: fct.px-to-rem(114.57px);
+                height: fct.px-to-rem(202.37px);
+                top: fct.px-to-rem(77px);
+                left: fct.px-to-rem(341px);
+                background-image: url('/src/assets/confetti/confetti6.svg');
+                transform: rotate(167.23deg);
+            }
+
+            span:nth-child(7) {
+                width: fct.px-to-rem(155.26px);
+                height: fct.px-to-rem(202.37px);
+                top: fct.px-to-rem(46px);
+                left: fct.px-to-rem(1028px);
+                background-image: url('/src/assets/confetti/confetti7.svg');
+                transform: rotate(-16.34deg);
+            }
+
+            span:nth-child(8) {
+                width: fct.px-to-rem(140px);
+                height: fct.px-to-rem(92.43px);
+                top: 0;
+                left: 0;
+                background-image: url('/src/assets/confetti/confetti8.svg');
+                transform: rotate(50.03deg);
+            }
+        }
+
+        &--open {
+            .winner__confetti {
+                opacity: 1;
+
+                span {
+                    animation: confetti-drop 900ms ease-out forwards;
+                }
+
+                span:nth-child(2n) {
+                    animation-delay: 80ms;
+                }
+
+                span:nth-child(3n) {
+                    animation-delay: 140ms;
+                }
+            }
         }
 
         &__btn,

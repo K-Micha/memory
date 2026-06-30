@@ -7,7 +7,7 @@ type BoardSize = 16 | 24 | 36;
 /** Current game settings.*/
 export type GameSettings = {
     theme: Theme;
-    players: Player[];
+    startingPlayer: Player | null;
     boardSize: BoardSize | null;
 };
 
@@ -76,11 +76,13 @@ function getTheme(): Theme {
     );
 }
 
-/** Returns selected players.*/
-function getPlayers(): Player[] {
-    return UI.player
-        .filter(player => player.checked)
-        .map(player => player.value as Player);
+/** Returns the selected starting player.*/
+function getStartingPlayer(): Player | null {
+    const playerValue = UI.player.find(player => player.checked)?.value;
+
+    return playerValue
+        ? (playerValue as Player)
+        : null;
 }
 
 /** Returns selected board size.*/
@@ -96,7 +98,7 @@ function getBoardSize(): BoardSize | null {
 function getSettings(): GameSettings {
     return {
         theme: getTheme(),
-        players: getPlayers(),
+        startingPlayer: getStartingPlayer(),
         boardSize: getBoardSize(),
     };
 }
@@ -113,10 +115,10 @@ function updateSavedTheme(settings: GameSettings): void {
     });
 }
 
-/** Updates saved players.*/
-function updateSavedPlayers(settings: GameSettings): void {
+/** Updates saved starting player.*/
+function updateSavedStartingPlayer(settings: GameSettings): void {
     UI.player.forEach(player => {
-        player.checked = settings.players.includes(player.value as Player);
+        player.checked = player.value === settings.startingPlayer;
     });
 }
 
@@ -133,7 +135,7 @@ function updateSavedBoard(settings: GameSettings): void {
 /** Applies saved settings.*/
 function applySavedSettings(settings: GameSettings): void {
     updateSavedTheme(settings);
-    updateSavedPlayers(settings);
+    updateSavedStartingPlayer(settings);
     updateSavedBoard(settings);
     updateThemePreview(settings.theme);
 }
@@ -147,12 +149,27 @@ function loadSavedSettings(): void {
         return;
     }
 
-    applySavedSettings(settings);
+    applySavedSettings(settings as GameSettings);
+}
+
+/** Initializes theme preview hover.*/
+function initThemePreviewHover(input: HTMLInputElement): void {
+    const item = input.closest('.options__item');
+
+    item?.addEventListener('mouseenter', () => {
+        updateThemePreview(input.value as Theme);
+    });
+
+    item?.addEventListener('mouseleave', () => {
+        updateThemePreview(getTheme());
+    });
 }
 
 /** Initializes theme selection.*/
 function initThemeSelection(): void {
     UI.theme.forEach(input => {
+        initThemePreviewHover(input);
+
         input.addEventListener('change', () => {
             if (input.checked) {
                 updateThemePreview(input.value as Theme);
@@ -162,10 +179,20 @@ function initThemeSelection(): void {
     });
 }
 
+/** Selects only one starting player.*/
+function selectStartingPlayer(selectedPlayer: HTMLInputElement): void {
+    UI.player.forEach(player => {
+        player.checked = player === selectedPlayer;
+    });
+}
+
 /** Initializes player selection.*/
 function initPlayerSelection(): void {
     UI.player.forEach(player => {
-        player.addEventListener('change', saveCurrentSettings);
+        player.addEventListener('change', () => {
+            selectStartingPlayer(player);
+            saveCurrentSettings();
+        });
     });
 }
 
@@ -197,12 +224,14 @@ function selectBoard(board: HTMLInputElement): void {
 function handleBoardClick(board: HTMLInputElement): void {
     if (toggleBoardSelection(board)) {
         saveCurrentSettings();
+        updateStartButtonState();
         return;
     }
 
     if (board.checked) {
         selectBoard(board);
         saveCurrentSettings();
+        updateStartButtonState();
     }
 }
 
@@ -213,7 +242,7 @@ function initBoardSelection(): void {
     });
 }
 
-/** Checks for selected players.*/
+/** Checks for selected starting player.*/
 function hasSelectedPlayer(): boolean {
     return UI.player.some(player => player.checked);
 }
@@ -234,9 +263,25 @@ function markMissingSettings(): void {
     summary?.classList.add('summary--error');
 }
 
+
+/** Indicates whether the start button is active.*/
+let isStartButtonActive = false;
+
+/** Updates the start button state.*/
+function updateStartButtonState(): void {
+    const button = document.querySelector<HTMLButtonElement>('.summary__item--hight');
+
+    if (!button) {
+        return;
+    }
+
+    isStartButtonActive = isSettingsValid();
+    button.classList.toggle('is-disabled', !isStartButtonActive);
+}
+
 /** Starts the game.*/
 function startGame(): void {
-    if (!isSettingsValid()) {
+    if (!isStartButtonActive) {
         markMissingSettings();
         return;
     }
@@ -258,6 +303,7 @@ function initSettings(): void {
     initThemeSelection();
     initPlayerSelection();
     initBoardSelection();
+    updateStartButtonState();
 }
 
 initSettings();
