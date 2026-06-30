@@ -92,7 +92,7 @@ function isGameFinished(): boolean {
 }
 
 /** Finishes the current turn.*/
-function finishTurn(): void {
+function finishTurn(shouldSwitchPlayer: boolean): void {
     flippedCards = [];
 
     if (isGameFinished()) {
@@ -100,7 +100,9 @@ function finishTurn(): void {
         return;
     }
 
-    switchPlayer();
+    if (shouldSwitchPlayer) {
+        switchPlayer();
+    }
 }
 
 /** Handles a matching card pair.*/
@@ -112,7 +114,7 @@ function handleMatch(
     secondCard.classList.add('is-matched');
 
     updateScore(currentPlayer);
-    finishTurn();
+    finishTurn(false);
 }
 
 /** Resets unmatched cards.*/
@@ -123,7 +125,7 @@ function resetCards(
     firstCard.classList.remove('is-flipped');
     secondCard.classList.remove('is-flipped');
 
-    finishTurn();
+    finishTurn(true);
 }
 
 /** Checks the flipped cards.*/

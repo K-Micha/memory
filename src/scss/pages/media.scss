@@ -8,11 +8,6 @@
     .settings {
         @include mx.flex-center();
     }
-
-    .hero__wrapper::before {
-        left: 54px;
-        bottom: 80px;
-    }
 }
 
 @media (max-width: 992px) {

@@ -209,6 +209,7 @@
     &__item {
         font-weight: 500;
         color: map.get(var.$colors, dark-primary);
+        font-size: 20px;
     }
 
     &__item--hight {
